@@ -1,7 +1,7 @@
 package models
 
 import (
-	"GIG-SDK"
+	"GIG-SDK/libraries"
 	"sort"
 	"time"
 )

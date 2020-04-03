@@ -1,7 +1,7 @@
 package models
 
 import (
-	"GIG/app/utilities/normalizers"
+	"GIG-SDK/libraries"
 	"gopkg.in/mgo.v2/bson"
 	"time"
 )
@@ -24,7 +24,7 @@ func (n NormalizedName) GetSearchText() string {
 }
 
 func (n NormalizedName) SetSearchText(value string) NormalizedName {
-	n.SearchText = normalizers.ProcessNameString(value)
+	n.SearchText = libraries.ProcessNameString(value)
 	return n
 }
 
