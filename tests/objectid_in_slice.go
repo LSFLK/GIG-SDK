@@ -1,7 +1,7 @@
 package tests
 
 import (
-	"GIG-SDK"
+	"GIG-SDK/libraries"
 	"gopkg.in/mgo.v2/bson"
 )
 

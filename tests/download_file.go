@@ -1,7 +1,7 @@
 package tests
 
 import (
-	"GIG-SDK"
+	"GIG-SDK/libraries"
 	"os"
 )
 

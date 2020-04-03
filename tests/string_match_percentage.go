@@ -1,6 +1,6 @@
 package tests
 
-import "GIG-SDK"
+import "GIG-SDK/libraries"
 
 func (t *TestSDK) TestThatMatchStringWorksForEqualStrings() {
 	matchPercent:= libraries.StringMatchPercentage("long string","long string")
