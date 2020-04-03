@@ -1,7 +1,7 @@
 package models
 
 import (
-	"GIG/sdk"
+	"GIG-SDK"
 	"sort"
 	"time"
 )
@@ -21,7 +21,7 @@ func (l Link) GetTitle() string {
 }
 
 func (l Link) AddDate(date time.Time) Link {
-	if !sdk.DateInSlice(l.Dates, date) {
+	if !libraries.DateInSlice(l.Dates, date) {
 		l.Dates = append(l.Dates, date)
 	}
 	return l

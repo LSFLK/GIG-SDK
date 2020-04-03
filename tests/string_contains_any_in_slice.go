@@ -1,15 +1,15 @@
 package tests
 
 import (
-	"GIG/sdk"
+	"GIG-SDK"
 )
 
 func (t *TestSDK) TestThatStringContainsAnyInSliceTestReturnsTrue() {
 	testSlice := []string{"1", "2", "3", "4","here"}
-	t.AssertEqual(sdk.StringContainsAnyInSlice(testSlice, "some value here"), true)
+	t.AssertEqual(libraries.StringContainsAnyInSlice(testSlice, "some value here"), true)
 }
 
 func (t *TestSDK) TestThatStringContainsAnyInSliceTestReturnsFalse() {
 	testSlice := []string{"1", "2", "3", "4","some value here"}
-	t.AssertEqual(sdk.StringInSlice(testSlice, "else"), false)
+	t.AssertEqual(libraries.StringInSlice(testSlice, "else"), false)
 }

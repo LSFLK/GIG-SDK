@@ -1,11 +1,11 @@
 package tests
 
 import (
-	"GIG/sdk"
+	"GIG-SDK/libraries"
 )
 
 func (t *TestSDK) TestThatExtractDomainWorks() {
 	link := "http://www.buildings.gov.lk/index.php"
-	result := sdk.ExtractDomain(link)
+	result := libraries.ExtractDomain(link)
 	t.AssertEqual("www.buildings.gov.lk", result)
 }

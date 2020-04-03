@@ -1,7 +1,7 @@
 package models
 
 import (
-	"GIG/sdk"
+	"GIG-SDK"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/pkg/errors"
 	"gopkg.in/mgo.v2/bson"
@@ -280,7 +280,7 @@ func (e Entity) IsNil() bool {
 Add new category to entity
  */
 func (e Entity) AddCategory(category string) Entity {
-	if sdk.StringInSlice(e.GetCategories(), category) {
+	if libraries.StringInSlice(e.GetCategories(), category) {
 		return e
 	}
 	e.Categories = append(e.GetCategories(), category)
@@ -305,7 +305,7 @@ remove categories from the entity
 func (e Entity) RemoveCategories(categories []string) Entity {
 	var remainingCategories []string
 	for _, category := range e.GetCategories() {
-		if !sdk.StringInSlice(categories, category) {
+		if !libraries.StringInSlice(categories, category) {
 			remainingCategories = append(remainingCategories, category)
 		}
 	}
