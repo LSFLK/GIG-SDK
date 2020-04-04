@@ -1,8 +1,8 @@
 package request_handlers
 
 import (
+	"GIG-SDK"
 	"GIG-SDK/models"
-	"GIG-Scripts"
 )
 
 /**
@@ -10,7 +10,7 @@ Upload an image through API
  */
 func UploadImage(payload models.Upload) error {
 
-	if _, err := PostRequest(scripts.ApiUrl+"upload", payload); err != nil {
+	if _, err := PostRequest(config.ApiUrl+"upload", payload); err != nil {
 		return err
 	}
 	return nil

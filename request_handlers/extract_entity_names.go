@@ -1,7 +1,7 @@
 package request_handlers
 
 import (
-	"GIG-Scripts"
+	"GIG-SDK"
 	"encoding/json"
 )
 
@@ -15,7 +15,7 @@ NER extraction
  */
 func ExtractEntityNames(textContent string) ([]NERResult, error) {
 
-	apiResp, err := PostRequest(scripts.NERServerUrl, textContent)
+	apiResp, err := PostRequest(config.NERServerUrl, textContent)
 	if err != nil {
 		return nil, err
 	}
