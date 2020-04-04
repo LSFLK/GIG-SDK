@@ -4,7 +4,7 @@ import (
 	"GIG-SDK/models"
 )
 
-func CreateEntityFromText(textContent string, title string, categories []string, entityTitles []NERResult) error {
+func CreateEntityFromText(textContent string, title string, categories []string, entityTitles []models.NERResult) error {
 	//decode to entity
 	var entities []models.Entity
 	entity := models.Entity{}.

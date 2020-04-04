@@ -2,18 +2,14 @@ package request_handlers
 
 import (
 	"GIG-SDK"
+	"GIG-SDK/models"
 	"encoding/json"
 )
-
-type NERResult struct {
-	Category   string
-	EntityName string
-}
 
 /**
 NER extraction
  */
-func ExtractEntityNames(textContent string) ([]NERResult, error) {
+func ExtractEntityNames(textContent string) ([]models.NERResult, error) {
 
 	apiResp, err := PostRequest(config.NERServerUrl, textContent)
 	if err != nil {
@@ -22,14 +18,14 @@ func ExtractEntityNames(textContent string) ([]NERResult, error) {
 
 	var (
 		entityTitles [][]string
-		results      []NERResult
+		results      []models.NERResult
 	)
 	if err = json.Unmarshal([]byte(apiResp), &entityTitles);err!=nil{
 		return nil, err
 	}
 
 	for _, entity := range entityTitles {
-		newNERResult := NERResult{EntityName: entity[0], Category: entity[1]}
+		newNERResult := models.NERResult{}.SetCategory(entity[1]).SetEntityName(entity[0])
 		results = append(results, newNERResult)
 	}
 	return results, nil
