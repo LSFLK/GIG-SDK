@@ -8,5 +8,7 @@ import (
 func TestThatGetRequestWorks(t *testing.T) {
 	link := "http://www.buildings.gov.lk/index.php"
 	result, _ := request_handlers.GetRequest(link)
-	t.AssertNotEqual(result, "")
+	if result == "" {
+		t.Errorf("match string for partially equal strings failed. %s == %s", result, "")
+	}
 }

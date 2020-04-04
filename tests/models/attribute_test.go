@@ -24,10 +24,28 @@ func TestThatAttributeGetValueByDateWorks(t *testing.T) {
 	testDate3, _ := time.Parse("2006-1-2", "2010-8-30")
 	testDate4, _ := time.Parse("2006-1-2", "2012-8-30")
 
-	t.AssertEqual(err, nil)
-	t.AssertEqual(testAttribute.GetValueByDate(testDate).GetSource(), "")
-	t.AssertEqual(testAttribute.GetValueByDate(testDate1).GetSource(), source)
-	t.AssertEqual(testAttribute.GetValueByDate(testDate2).GetSource(), source2)
-	t.AssertEqual(testAttribute.GetValueByDate(testDate3).GetSource(), source2)
-	t.AssertEqual(testAttribute.GetValueByDate(testDate4).GetSource(), source3)
+	errString := "attribute get value by date failed."
+	if err != nil {
+		t.Errorf("%s %s == %#v", errString, err.Error(), nil)
+	}
+	result := testAttribute.GetValueByDate(testDate).GetSource()
+	if result != "" {
+		t.Errorf("%s %s != %s", errString, result, "")
+	}
+	result1 := testAttribute.GetValueByDate(testDate1).GetSource()
+	if result1 != source {
+		t.Errorf("%s %s != %s", errString, result1, source)
+	}
+	result2 := testAttribute.GetValueByDate(testDate2).GetSource()
+	if result2 != source2 {
+		t.Errorf("%s %s != %s", errString, result2, source2)
+	}
+	result3 := testAttribute.GetValueByDate(testDate3).GetSource()
+	if result3 != source2 {
+		t.Errorf("%s %s != %s", errString, result3, source2)
+	}
+	result4 := testAttribute.GetValueByDate(testDate4).GetSource()
+	if result4 != source3 {
+		t.Errorf("%s %s != %s", errString, result4, source3)
+	}
 }

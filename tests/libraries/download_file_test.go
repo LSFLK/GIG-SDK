@@ -12,6 +12,6 @@ func TestThatDownloadFileWorks(t *testing.T) {
 	link := "https://s1.q4cdn.com/806093406/files/doc_downloads/test.pdf"
 	result := libraries.DownloadFile(filePath, link)
 	if result != nil {
-		t.Errorf("download file failed. %s != %#v", result.Error(), nil)
+		t.Errorf("download file failed. %#v != %#v", result.Error(), nil)
 	}
 }
