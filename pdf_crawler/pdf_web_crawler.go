@@ -4,7 +4,7 @@ import (
 	"GIG-SDK/libraries"
 	"GIG-SDK/request_handlers"
 	"flag"
-	"fmt"
+	"log"
 	"github.com/JackDanger/collectlinks"
 	"net/url"
 	"os"
@@ -25,7 +25,7 @@ func main() {
 	flag.Parse()
 	args := flag.Args()
 	if len(args) < 1 {
-		fmt.Println("starting url not specified")
+		log.Println("starting url not specified")
 		os.Exit(1)
 	}
 	uri := args[0]
@@ -45,13 +45,13 @@ func main() {
 	baseDir := downloadDir + libraries.ExtractDomain(uri) + "/"
 	for _, link := range links {
 		if libraries.FileTypeCheck(link, "pdf") {
-			fmt.Println(link, uri)
+			log.Println(link, uri)
 			absoluteUrl := libraries.FixUrl(link, uri)
-			fmt.Println(absoluteUrl)
+			log.Println(absoluteUrl)
 
 			// make directory if not exist
 			if err = libraries.EnsureDirectory(baseDir); err != nil {
-				fmt.Println(err)
+				log.Println(err)
 			}
 
 			// download file
@@ -59,7 +59,7 @@ func main() {
 			filePath := baseDir + encodedFileName
 			err := libraries.DownloadFile(filePath, absoluteUrl)
 			if err != nil {
-				fmt.Println(err)
+				log.Println(err)
 			}
 
 			fileName, _ := url.QueryUnescape(encodedFileName)
@@ -68,15 +68,15 @@ func main() {
 			//NER extraction
 			entityTitles, err := request_handlers.ExtractEntityNames(textContent)
 			if err != nil {
-				fmt.Println(err)
+				log.Println(err)
 			}
 			if err = request_handlers.CreateEntityFromText(textContent, libraries.ExtractDomain(uri)+" - "+fileName, categories, entityTitles); err != nil {
-				fmt.Println(err.Error(), absoluteUrl)
+				log.Println(err.Error(), absoluteUrl)
 			}
 
 		}
 	}
 
-	fmt.Println("pdf crawling completed")
+	log.Println("pdf crawling completed")
 
 }

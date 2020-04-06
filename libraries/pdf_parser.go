@@ -10,7 +10,7 @@ package libraries
  */
 
 import (
-	"fmt"
+	"log"
 	pdfcontent "github.com/unidoc/unidoc/pdf/contentstream"
 	pdf "github.com/unidoc/unidoc/pdf/model"
 	"os"
@@ -25,7 +25,7 @@ func ParsePdf(source string) string {
 
 	text, err := listContentStreams(source)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return ""
 	}
 	return text

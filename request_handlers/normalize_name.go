@@ -3,8 +3,8 @@ package request_handlers
 import (
 	"GIG-SDK"
 	"encoding/json"
-	"fmt"
 	"github.com/revel/revel"
+	"log"
 	"net/url"
 	"strconv"
 )
@@ -31,6 +31,6 @@ func NormalizeName(title string) (string, error) {
 	if response.Status != 200 {
 		return "", revel.NewErrorFromPanic("Server responded with" + strconv.Itoa(response.Status))
 	}
-	fmt.Println("normalized", title, "to", response.Content)
+	log.Println("normalized", title, "to", response.Content)
 	return response.Content, nil
 }
