@@ -10,13 +10,13 @@ package libraries
  */
 
 import (
-	"log"
 	pdfcontent "github.com/unidoc/unidoc/pdf/contentstream"
 	pdf "github.com/unidoc/unidoc/pdf/model"
+	"log"
 	"os"
 )
 
-const NewPageMarker= "\n*******************\n"
+const NewPageMarker = "\n*******************\n"
 
 /**
 return the string content of a given PDF file
