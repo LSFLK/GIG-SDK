@@ -227,7 +227,7 @@ Create snippet for the entity
  */
 func (e Entity) SetSnippet() Entity {
 	if e.Snippet == "" {
-		contentAttr, err := e.GetAttribute("")
+		contentAttr, err := e.GetAttribute("content")
 		snippet := ""
 		if err == nil { // if content attribute found
 			switch contentAttr.GetValue().GetType() {
