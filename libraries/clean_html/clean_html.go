@@ -28,7 +28,7 @@ func (c HtmlCleaner) CleanHTML(uri string, body *html.Node) (string, []models.En
 		f                  func(*html.Node)
 		imageList          []models.Upload
 		defaultImageSource string
-		defaultImageWidth  int
+		defaultImageArea  int
 	)
 
 	lineBreakers := c.Config.LineBreakers
@@ -49,13 +49,13 @@ func (c HtmlCleaner) CleanHTML(uri string, body *html.Node) (string, []models.En
 			} else if n.Type == html.ElementNode {
 				startTag := ""
 				imageSource := ""
-				imageWidth := 0
+				imageArea := 0
 				startTag, linkedEntities = c.extractLinks(startTag, n, uri, linkedEntities)
-				startTag, imageList, imageSource, imageWidth = ExtractImages(startTag, n, uri, imageList)
+				startTag, imageList, imageSource, imageArea = ExtractImages(startTag, n, uri, imageList)
 
 				//set default image
-				if imageSource != "" && (imageWidth > defaultImageWidth || defaultImageWidth == 0) {
-					defaultImageWidth = imageWidth
+				if imageSource != "" && (imageArea > defaultImageArea) {
+					defaultImageArea = imageArea
 					defaultImageSource = imageSource
 				}
 

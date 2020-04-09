@@ -10,27 +10,36 @@ import (
 func ExtractImages(startTag string, n *html.Node, uri string, imageList []models.Upload) (string, []models.Upload, string, int) {
 	sourceLink := ""
 	var uploadImageClass models.Upload
-	imageWidth := 0
+	imageArea := 0
 
 	if n.Data == "img" {
 		var (
-			src   html.Attribute
-			width html.Attribute
+			src    string
+			err    error
 		)
+		height, width := 1, 1
 		for _, attr := range n.Attr {
 			if attr.Key == "src" {
-				src = attr
+				src = attr.Val
 			} else if attr.Key == "width" {
-				width = attr
+				width, err = strconv.Atoi(attr.Val)
+				if err != nil {
+					width = 1
+				}
+			} else if attr.Key == "height" {
+				height, err = strconv.Atoi(attr.Val)
+				if err != nil {
+					height = 1
+				}
 			}
 		}
 
-		sourceLink, uploadImageClass = GenerateImagePath(src.Val, uri)
-		imageWidth, _ = strconv.Atoi(width.Val)
+		sourceLink, uploadImageClass = GenerateImagePath(src, uri)
+		imageArea = width * height
 		startTag = n.Data + " src='" + sourceLink + "'"
 		imageList = append(imageList, uploadImageClass)
 	}
-	return startTag, imageList, sourceLink, imageWidth
+	return startTag, imageList, sourceLink, imageArea
 }
 
 func GenerateImagePath(href string, uri string) (string, models.Upload) {
