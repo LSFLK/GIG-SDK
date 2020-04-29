@@ -8,6 +8,8 @@ See [Crawlers](pdf_crawler/README.md) for sample PDF crawler.
 See [Request Handlers](request_handlers/README.md) for sample API calls.
 
 ## Configuration
+Copy config.go.example and create a new file named config.go
+
 Change GIG server urls in config.go
 
     var ApiUrl = "http://localhost:9000/api/"
