@@ -4,10 +4,6 @@ import (
 	"time"
 )
 
-// SearchResult
-//
-// search result model structure
-//
 // swagger:model
 type SearchResult struct {
 	Title      string               `json:"title" bson:"title"`
