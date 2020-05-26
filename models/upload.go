@@ -1,5 +1,6 @@
 package models
 
+// swagger:model
 type Upload struct {
 	Source string `json:"source" bson:"source"`
 	Title     string `json:"title" bson:"title"`
