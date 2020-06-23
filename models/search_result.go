@@ -12,6 +12,7 @@ type SearchResult struct {
 	Attributes map[string]Attribute `json:"attributes" bson:"attributes"`
 	Links      []Link               `json:"links" bson:"links"`
 	SourceDate time.Time            `json:"source_date" bson:"source_date"`
+	Source     string               `json:"source" bson:"source"`
 	CreatedAt  time.Time            `json:"created_at" bson:"created_at"`
 	UpdatedAt  time.Time            `json:"updated_at" bson:"updated_at"`
 	ImageURL   string               `json:"image_url" bson:"image_url"`
@@ -24,6 +25,7 @@ func (s SearchResult) ResultFrom(entity Entity, attributes []string) SearchResul
 	s.SourceDate = entity.GetSourceDate()
 	s.Categories = entity.GetCategories()
 	s.Links = entity.GetLinks()
+	s.Source = entity.GetSource()
 	s.CreatedAt = entity.GetCreatedDate()
 	s.UpdatedAt = entity.GetUpdatedDate()
 	s.ImageURL = entity.GetImageURL()
