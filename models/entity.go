@@ -27,6 +27,7 @@ type Entity struct {
 	CreatedAt       time.Time            `json:"created_at" bson:"created_at"`
 	UpdatedAt       time.Time            `json:"updated_at" bson:"updated_at"`
 	Snippet         string               `json:"snippet" bson:"snippet"`
+	SearchText      string               `json:"search_text" bson:"search_text"`
 }
 
 func (e Entity) NewEntity() Entity {
@@ -238,6 +239,7 @@ func (e Entity) SetSnippet() Entity {
 				snippet = contentAttr.GetValue().GetValueString()
 			}
 		}
+		e.SearchText = snippet
 		if len(snippet) > 300 {
 			snippet = snippet[0:300] + "..."
 		}
