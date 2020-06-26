@@ -5,6 +5,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/pkg/errors"
 	"gopkg.in/mgo.v2/bson"
+	"log"
 	"sort"
 	"strings"
 	"time"
@@ -227,21 +228,22 @@ func (e Entity) GetLinkTitles() []string {
 Create snippet for the entity
  */
 func (e Entity) SetSnippet() Entity {
-	if e.Snippet == "" {
-		contentAttr, err := e.GetAttribute("content")
-		snippet := ""
-		if err == nil { // if content attribute found
-			switch contentAttr.GetValue().GetType() {
-			case "html":
-				newsDoc, _ := goquery.NewDocumentFromReader(strings.NewReader(contentAttr.GetValue().GetValueString()))
-				snippet = strings.Replace(newsDoc.Text(), "  ", "", -1)
-			default:
-				snippet = contentAttr.GetValue().GetValueString()
-			}
+	log.Println("setting snippet", e.GetTitle())
+	contentAttr, err := e.GetAttribute("content")
+	snippet := ""
+	if err == nil { // if content attribute found
+		switch contentAttr.GetValue().GetType() {
+		case "html":
+			newsDoc, _ := goquery.NewDocumentFromReader(strings.NewReader(contentAttr.GetValue().GetValueString()))
+			snippet = strings.Replace(newsDoc.Text(), "  ", "", -1)
+		default:
+			snippet = contentAttr.GetValue().GetValueString()
 		}
-		e.SearchText = snippet
+	}
+	e.SearchText = snippet
+	if e.Snippet == "" {
 		if len(snippet) > 300 {
-			snippet = snippet[0:300] + "..."
+			e.Snippet = snippet[0:300] + "..."
 		}
 		e.Snippet = snippet
 	}
