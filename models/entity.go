@@ -5,7 +5,6 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/pkg/errors"
 	"gopkg.in/mgo.v2/bson"
-	"log"
 	"sort"
 	"strings"
 	"time"
@@ -228,7 +227,6 @@ func (e Entity) GetLinkTitles() []string {
 Create snippet for the entity
  */
 func (e Entity) SetSnippet() Entity {
-	log.Println("setting snippet", e.GetTitle())
 	contentAttr, err := e.GetAttribute("content")
 	snippet := ""
 	if err == nil { // if content attribute found
