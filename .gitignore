@@ -2,4 +2,3 @@
 .idea/
 .directory
 cache/*
-config.go
