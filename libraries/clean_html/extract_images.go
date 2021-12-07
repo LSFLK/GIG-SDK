@@ -14,12 +14,14 @@ func ExtractImages(startTag string, n *html.Node, uri string, imageList []models
 
 	if n.Data == "img" {
 		var (
-			src    string
-			err    error
+			src string
+			err error
 		)
 		height, width := 1, 1
 		for _, attr := range n.Attr {
-			if attr.Key == "src" {
+			if attr.Key == "src" && src == "" {
+				src = attr.Val
+			} else if attr.Key == "data-src" {
 				src = attr.Val
 			} else if attr.Key == "width" {
 				width, err = strconv.Atoi(attr.Val)
