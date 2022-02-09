@@ -10,6 +10,7 @@ type User struct {
 	Email    string        `json:"email" bson:"email"`
 	Role     string        `json:"role" bson:"role"`
 	Password []byte        `json:"-"`
+	ApiKey   string        `json:"apikey" bson:"apikey"`
 }
 
 func (e User) GetId() bson.ObjectId {
