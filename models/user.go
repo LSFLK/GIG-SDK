@@ -4,6 +4,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// swagger:model
 type User struct {
 	Id       bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Name     string        `json:"name" bson:"name"`
