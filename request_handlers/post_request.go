@@ -1,6 +1,7 @@
 package request_handlers
 
 import (
+	"GIG-SDK"
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
@@ -18,6 +19,7 @@ func PostRequest(uri string, data interface{}) (string, error) {
 
 	req, err := http.NewRequest("POST", uri, bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("ApiKey", "ApiKey "+config.ApiKey)
 	client := http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
