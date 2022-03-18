@@ -61,17 +61,22 @@ func (c HtmlCleaner) CleanHTML(uri string, body *html.Node) (string, []models.En
 				f(c)
 			}
 
-			if endTag != "" {
-				result = result + endTag
-			}
-			if libraries.StringInSlice(lineBreakers, n.Data) {
-				result = result + "\n"
-			}
+			result = closeElementTag(result, endTag, lineBreakers, n)
 		}
 	}
 	f(body)
 
 	return result, linkedEntities, imageList, defaultImageSource
+}
+
+func closeElementTag(result string, endTag string, lineBreakers []string, n *html.Node) string {
+	if endTag != "" {
+		result = result + endTag
+	}
+	if libraries.StringInSlice(lineBreakers, n.Data) {
+		result = result + "\n"
+	}
+	return result
 }
 
 func getNodeContent(n *html.Node, ignoreStrings []string, trimmedData string) string {
