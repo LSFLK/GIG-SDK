@@ -54,6 +54,11 @@ func TestThatEntitySetAttributeWorksForNewAttribute(t *testing.T) {
 	if err != nil {
 		t.Errorf(FormatSSUV, errString, err.Error(), nil)
 	}
+	evaluatedSetAttributeWorks(testValue, t, errString)
+
+}
+
+func evaluatedSetAttributeWorks(testValue models.Value, t *testing.T, errString string) {
 	if testValue.GetValueString() != strings.TrimSpace(valueString) {
 		t.Errorf(FormatSSUS, errString, testValue.GetValueString(), strings.TrimSpace(valueString))
 	}
@@ -85,24 +90,7 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithSameValue(t *testing
 	if err != nil {
 		t.Errorf(FormatSSUV, errString, err.Error(), nil)
 	}
-	if len(testAttribute.GetValues()) != 1 {
-		t.Errorf(FormatSDUD, errString, len(testAttribute.GetValues()), 1)
-	}
-	if testValue.GetValueString() != strings.TrimSpace(valueString) {
-		t.Errorf(FormatSSUS, errString, testValue.GetValueString(), strings.TrimSpace(valueString))
-	}
-	if testValue.GetType() != valueType {
-		t.Errorf(FormatSSUS, errString, testValue.GetType(), valueType)
-	}
-	if testValue.GetDate() != date {
-		t.Errorf(FormatSSUS, errString, testValue.GetDate(), date)
-	}
-	if testValue.GetSource() != source {
-		t.Errorf(FormatSSUS, errString, testValue.GetSource(), source)
-	}
-	if testValue.GetUpdatedDate().After(date) != true {
-		t.Errorf(FormatSTUT, errString, testValue.GetUpdatedDate().After(date), true)
-	}
+	evaluatedSetAttributeWorks(testValue, t, errString)
 }
 
 /*
