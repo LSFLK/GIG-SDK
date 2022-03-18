@@ -7,10 +7,10 @@ import (
 )
 
 func TestThatCreateEntityWorks(t *testing.T) {
-	initialEntity := models.Entity{Title: "Sri Lanka"}
+	initialEntity := models.Entity{Title: SriLanka}
 	entity, _ := request_handlers.CreateEntity(initialEntity)
 
-	if entity.GetTitle() != "Sri Lanka" {
-		t.Errorf("create entity failed. %s != %s", entity.GetTitle(), "Sri Lanka")
+	if entity.GetTitle() != SriLanka {
+		t.Errorf("create entity failed. %s != %s", entity.GetTitle(), SriLanka)
 	}
 }

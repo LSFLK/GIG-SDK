@@ -7,9 +7,9 @@ import (
 )
 
 func TestThatAddEntityAsAttributeWorks(t *testing.T) {
-	attributeEntity, err := request_handlers.GetEntity("Sri Lanka")
+	attributeEntity, err := request_handlers.GetEntity(SriLanka)
 	if err != nil {
-		t.Errorf("add entitiy as attribute, entity %s not found", "Sri Lanka")
+		t.Errorf("add entitiy as attribute, entity %s not found", SriLanka)
 	}
 
 	entity := models.Entity{Title: "test entity"}
