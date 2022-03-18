@@ -111,21 +111,7 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithNewValueAfterLatestE
 	if len(testAttribute.GetValues()) != 2 {
 		t.Errorf(FormatSDUD, errString, len(testAttribute.GetValues()), 2)
 	}
-	if testValue.GetValueString() != strings.TrimSpace(valueString2) {
-		t.Errorf(FormatSSUS, errString, testValue.GetValueString(), strings.TrimSpace(valueString2))
-	}
-	if testValue.GetType() != valueType {
-		t.Errorf(FormatSSUS, errString, testValue.GetType(), valueType)
-	}
-	if testValue.GetDate() != date2 {
-		t.Errorf(FormatSSUS, errString, testValue.GetDate(), date2)
-	}
-	if testValue.GetSource() != source2 {
-		t.Errorf(FormatSSUS, errString, testValue.GetSource(), source2)
-	}
-	if testValue.GetUpdatedDate().After(date) != true {
-		t.Errorf(FormatSTUT, errString, testValue.GetUpdatedDate().After(date), true)
-	}
+	evaluateEntitySetAttributeWorksForExistingAttributeWithNewValue(testValue, t, errString)
 }
 
 /*
@@ -147,6 +133,10 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithNewValueInBetweenExi
 	if len(testAttribute.GetValues()) != 3 {
 		t.Errorf(FormatSDUD, errString, len(testAttribute.GetValues()), 3)
 	}
+	evaluateEntitySetAttributeWorksForExistingAttributeWithNewValue(testValue, t, errString)
+}
+
+func evaluateEntitySetAttributeWorksForExistingAttributeWithNewValue(testValue models.Value, t *testing.T, errString string) {
 	if testValue.GetValueString() != strings.TrimSpace(valueString2) {
 		t.Errorf(FormatSSUS, errString, testValue.GetValueString(), strings.TrimSpace(valueString2))
 	}
