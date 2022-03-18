@@ -171,33 +171,7 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithNewValueBeforeTheFir
 
 	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj3)
 	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj)
-
-	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
-	testValue := testAttribute.GetValues()[0]
-
-	errString := "entity set attribute for existing attribute with new value before the first value failed."
-	if err != nil {
-		t.Errorf(FormatSSUV, errString, err.Error(), nil)
-	}
-	if len(testAttribute.GetValues()) != 3 {
-		t.Errorf(FormatSDUD, errString, len(testAttribute.GetValues()), 3)
-	}
-	if testValue.GetValueString() != strings.TrimSpace(valueString) {
-		t.Errorf(FormatSSUS, errString, testValue.GetValueString(), strings.TrimSpace(valueString))
-	}
-	if testValue.GetType() != valueType {
-		t.Errorf(FormatSSUS, errString, testValue.GetType(), valueType)
-	}
-	if testValue.GetDate() != date {
-		t.Errorf(FormatSSUS, errString, testValue.GetDate(), date)
-	}
-	if testValue.GetSource() != source {
-		t.Errorf(FormatSSUS, errString, testValue.GetSource(), source)
-	}
-	if testValue.GetUpdatedDate().After(date) != true {
-		t.Errorf(FormatSTUT, errString, testValue.GetUpdatedDate().After(date), true)
-	}
+	evaluateEntitySetAttributeWorksForExistingAttribute(testEntity, t)
 }
 
 /*
@@ -208,6 +182,11 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithSameValueButWithZero
 	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj3)
 	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2)
 	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj0)
+	evaluateEntitySetAttributeWorksForExistingAttribute(testEntity, t)
+
+}
+
+func evaluateEntitySetAttributeWorksForExistingAttribute(testEntity models.Entity, t *testing.T) {
 	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj)
 
 	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
