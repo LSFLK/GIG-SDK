@@ -142,7 +142,7 @@ func (e Entity) SetAttribute(attributeName string, value Value) Entity {
 			valuesSlice[valueIndex] = valuesSlice[valueIndex].SetDate(valueDate).SetSource(value.GetSource())
 			attribute.Values = valuesSlice
 			e.Attributes[attributeName] = attribute
-		} else if !(valueByDate.GetValueString() == value.GetValueString()) {
+		} else if valueByDate.GetValueString() != value.GetValueString() {
 			e.Attributes[attributeName] = attribute.SetValue(value)
 		}
 

@@ -5,15 +5,19 @@ import (
 	"testing"
 )
 
+const (
+	LongString = "long string"
+)
+
 func TestThatMatchStringWorksForEqualStrings(t *testing.T) {
-	matchPercent := libraries.StringMatchPercentage("long string", "long string")
+	matchPercent := libraries.StringMatchPercentage(LongString, LongString)
 	if matchPercent != 100 {
 		t.Errorf("match string for equal strings failed. %d != %d", matchPercent, 100)
 	}
 }
 
 func TestThatMatchStringWorksForUnequalStrings(t *testing.T) {
-	matchPercent := libraries.StringMatchPercentage("long string", "some other string")
+	matchPercent := libraries.StringMatchPercentage(LongString, "some other string")
 	if matchPercent != 17 {
 		t.Errorf("match string for unequal strings failed. %d != %d", matchPercent, 17)
 	}
