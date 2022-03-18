@@ -47,36 +47,34 @@ func main() {
 		if libraries.FileTypeCheck(link, "pdf") {
 			log.Println(link, uri)
 			absoluteUrl := libraries.FixUrl(link, uri)
-			log.Println(absoluteUrl)
-
-			// make directory if not exist
-			if err = libraries.EnsureDirectory(baseDir); err != nil {
-				log.Println(err)
-			}
-
-			// download file
 			encodedFileName := libraries.ExtractFileName(absoluteUrl)
 			filePath := baseDir + encodedFileName
-			err := libraries.DownloadFile(filePath, absoluteUrl)
-			if err != nil {
-				log.Println(err)
-			}
-
+			err := downloadFile(absoluteUrl, baseDir, filePath)
 			fileName, _ := url.QueryUnescape(encodedFileName)
+
 			//parse pdf
 			textContent := libraries.ParsePdf(filePath)
 			//NER extraction
 			entityTitles, err := request_handlers.ExtractEntityNames(textContent)
-			if err != nil {
-				log.Println(err)
-			}
-			if err = request_handlers.CreateEntityFromText(textContent, libraries.ExtractDomain(uri)+" - "+fileName, categories, entityTitles); err != nil {
-				log.Println(err.Error(), absoluteUrl)
-			}
+			libraries.ReportErrorWithoutCrash(err)
 
+			err = request_handlers.CreateEntityFromText(textContent, libraries.ExtractDomain(uri)+" - "+fileName, categories, entityTitles);
+			libraries.ReportErrorWithoutCrash(err)
 		}
 	}
 
 	log.Println("pdf crawling completed")
 
+}
+
+func downloadFile(absoluteUrl string, baseDir string, filePath string) (error) {
+
+	// make directory if not exist
+	if err := libraries.EnsureDirectory(baseDir); err != nil {
+		return err
+	}
+
+	// download file
+	err := libraries.DownloadFile(filePath, absoluteUrl)
+	return err
 }
