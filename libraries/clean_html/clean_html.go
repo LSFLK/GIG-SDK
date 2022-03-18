@@ -28,7 +28,7 @@ func (c HtmlCleaner) CleanHTML(uri string, body *html.Node) (string, []models.En
 		f                  func(*html.Node)
 		imageList          []models.Upload
 		defaultImageSource string
-		defaultImageArea  int
+		defaultImageArea   int
 	)
 
 	lineBreakers := c.Config.LineBreakers
@@ -43,30 +43,18 @@ func (c HtmlCleaner) CleanHTML(uri string, body *html.Node) (string, []models.En
 			endTag := ""
 			trimmedData := strings.TrimSpace(n.Data)
 			if n.Type == html.TextNode && trimmedData != "" {
-				if !libraries.StringInSlice(ignoreStrings, trimmedData) {
-					result = result + n.Data
-				}
+				result = result + getNodeContent(n, ignoreStrings, trimmedData)
 			} else if n.Type == html.ElementNode {
 				startTag := ""
 				imageSource := ""
 				imageArea := 0
 				startTag, linkedEntities = c.extractLinks(startTag, n, uri, linkedEntities)
 				startTag, imageList, imageSource, imageArea = ExtractImages(startTag, n, uri, imageList)
-
-				//set default image
-				if imageSource != "" && (imageArea > defaultImageArea) {
-					defaultImageArea = imageArea
-					defaultImageSource = imageSource
-				}
-
 				startTag = ExtractIFrames(startTag, n, uri)
+				startTag, endTag = getStartAndEndTag(startTag, endTag, n)
+				result = result + startTag
 
-				if startTag == "" {
-					result = result + "<" + n.Data + ">"
-				} else {
-					result = result + "<" + startTag + ">"
-				}
-				endTag = "</" + n.Data + ">"
+				defaultImageArea, defaultImageSource = setDefaultImage(imageSource, imageArea, defaultImageArea, defaultImageSource)
 			}
 
 			for c := n.FirstChild; c != nil; c = c.NextSibling {
@@ -84,4 +72,32 @@ func (c HtmlCleaner) CleanHTML(uri string, body *html.Node) (string, []models.En
 	f(body)
 
 	return result, linkedEntities, imageList, defaultImageSource
+}
+
+func getNodeContent(n *html.Node, ignoreStrings []string, trimmedData string) string {
+	if !libraries.StringInSlice(ignoreStrings, trimmedData) {
+		return n.Data
+	}
+	return ""
+}
+
+func getStartAndEndTag(startTag string, endTag string, n *html.Node) (string, string) {
+	if startTag == "" {
+		startTag = "<" + n.Data + ">"
+	} else {
+		startTag = "<" + startTag + ">"
+	}
+	endTag = "</" + n.Data + ">"
+
+	return startTag, endTag
+}
+
+func setDefaultImage(imageSource string, imageArea int, defaultImageArea int, defaultImageSource string) (int, string) {
+	//set default image
+	if imageSource != "" && (imageArea > defaultImageArea) {
+		defaultImageArea = imageArea
+		defaultImageSource = imageSource
+	}
+
+	return defaultImageArea, defaultImageSource
 }
