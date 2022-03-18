@@ -13,26 +13,17 @@ func ExtractImages(startTag string, n *html.Node, uri string, imageList []models
 	imageArea := 0
 
 	if n.Data == "img" {
-		var (
-			src string
-			err error
-		)
-		height, width := 1, 1
+		var src string
+
+		height, width := 0, 0
 		for _, attr := range n.Attr {
-			if attr.Key == "src" && src == "" {
-				src = attr.Val
-			} else if attr.Key == "data-src" {
-				src = attr.Val
-			} else if attr.Key == "width" {
-				width, err = strconv.Atoi(attr.Val)
-				if err != nil {
-					width = 1
-				}
-			} else if attr.Key == "height" {
-				height, err = strconv.Atoi(attr.Val)
-				if err != nil {
-					height = 1
-				}
+			switch attr.Key {
+			case "src", "data-src":
+				src = setSourceValue(src, attr.Val)
+			case "width":
+				width = convertStringToIntOrDefault(attr.Val)
+			case "height":
+				height = convertStringToIntOrDefault(attr.Val)
 			}
 		}
 
@@ -42,6 +33,21 @@ func ExtractImages(startTag string, n *html.Node, uri string, imageList []models
 		imageList = append(imageList, uploadImageClass)
 	}
 	return startTag, imageList, sourceLink, imageArea
+}
+
+func setSourceValue(src string, value string) string {
+	if src == "" {
+		return value
+	}
+	return src
+}
+
+func convertStringToIntOrDefault(stringValue string) int {
+	value, err := strconv.Atoi(stringValue)
+	if err != nil {
+		return 1
+	}
+	return value
 }
 
 func GenerateImagePath(href string, uri string) (string, models.Upload) {
