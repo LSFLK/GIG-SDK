@@ -3,10 +3,10 @@ package GIG_SDK
 import (
 	"GIG-SDK/constants/routes"
 	"GIG-SDK/enums/ValueType"
-	"GIG-SDK/models"
 	"bytes"
 	"crypto/tls"
 	"encoding/json"
+	"github.com/lsflk/gig-sdk/models"
 	"github.com/revel/revel"
 	"io/ioutil"
 	"log"
