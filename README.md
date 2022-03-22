@@ -3,6 +3,10 @@ Models, Enums, Tools, Libraries, and API call examples for GIG Development
 
 See [Libraries](libraries/README.md) for generic functions.
 
+## Installation
+
+go get github.com/lsflk/gig-sdk v0.1.1
+
 ## Client Configuration
 Configure the GigClient as below
 
@@ -13,3 +17,4 @@ Configure the GigClient as below
     		NormalizationServerUrl: "http://localhost:9000/api/",
     		OcrServerUrl:           "http://localhost:8081/extract?url=",
     	}
+
