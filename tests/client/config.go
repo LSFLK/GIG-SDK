@@ -1,12 +1,14 @@
 package client
 
-import "github.com/lsflk/gig-sdk"
+import (
+	"github.com/lsflk/gig-sdk/client"
+)
 
 /**
 Set the GIG server API url here for crawlers
  */
 
-var testClient = gig_sdk.GigClient{
+var testClient = client.GigClient{
 	ApiUrl:                 "http://localhost:9000/api/",
 	ApiKey:                 "[ApiKey]",
 	NerServerUrl:           "http://localhost:8080/classify",

@@ -1,4 +1,4 @@
-package gig_sdk
+package client
 
 import (
 	"bytes"
