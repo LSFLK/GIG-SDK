@@ -1,8 +1,8 @@
 package models
 
 import (
-	"GIG-SDK/enums/ValueType"
-	"GIG-SDK/models"
+	"github.com/lsflk/gig-sdk/enums/ValueType"
+	"github.com/lsflk/gig-sdk/models"
 	"time"
 )
 

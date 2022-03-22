@@ -1,7 +1,7 @@
 package libraries
 
 import (
-	"GIG-SDK/libraries"
+	"github.com/lsflk/gig-sdk/libraries"
 	"os"
 	"testing"
 )

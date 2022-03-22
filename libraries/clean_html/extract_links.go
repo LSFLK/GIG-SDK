@@ -1,7 +1,7 @@
 package clean_html
 
 import (
-	"GIG-SDK/libraries"
+	"github.com/lsflk/gig-sdk/libraries"
 	"github.com/lsflk/gig-sdk/models"
 	"golang.org/x/net/html"
 	"time"

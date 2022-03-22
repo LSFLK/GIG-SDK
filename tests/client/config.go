@@ -1,6 +1,6 @@
 package client
 
-import "GIG-SDK"
+import "github.com/lsflk/gig-sdk"
 
 /**
 Set the GIG server API url here for crawlers

@@ -1,7 +1,7 @@
 package clean_html
 
 import (
-	"GIG-SDK/libraries"
+	"github.com/lsflk/gig-sdk/libraries"
 	"golang.org/x/net/html"
 )
 

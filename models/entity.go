@@ -1,7 +1,7 @@
 package models
 
 import (
-	"GIG-SDK/libraries"
+	"github.com/lsflk/gig-sdk/libraries"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/pkg/errors"
 	"gopkg.in/mgo.v2/bson"

@@ -1,7 +1,7 @@
 package models
 
 import (
-	"GIG-SDK/models"
+	"github.com/lsflk/gig-sdk/models"
 	"testing"
 	"time"
 )
