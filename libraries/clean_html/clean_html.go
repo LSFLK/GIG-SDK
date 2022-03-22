@@ -2,7 +2,7 @@ package clean_html
 
 import (
 	"GIG-SDK/libraries"
-	"GIG-SDK/models"
+	"github.com/lsflk/gig-sdk/models"
 	"golang.org/x/net/html"
 	"strings"
 )
