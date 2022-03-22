@@ -1,4 +1,4 @@
-package GIG_SDK
+package gig_sdk
 
 import (
 	"bytes"

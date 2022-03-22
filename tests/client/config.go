@@ -6,7 +6,7 @@ import "github.com/lsflk/gig-sdk"
 Set the GIG server API url here for crawlers
  */
 
-var testClient = GIG_SDK.GigClient{
+var testClient = gig_sdk.GigClient{
 	ApiUrl:                 "http://localhost:9000/api/",
 	ApiKey:                 "[ApiKey]",
 	NerServerUrl:           "http://localhost:8080/classify",
