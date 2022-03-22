@@ -1,4 +1,4 @@
-module GIG-SDK
+module github.com/lsflk/gig-sdk
 
 go 1.13
 
