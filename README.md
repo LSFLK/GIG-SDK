@@ -3,15 +3,13 @@ Models, Enums, Tools, Libraries, and API call examples for GIG Development
 
 See [Libraries](libraries/README.md) for generic functions.
 
-See [Crawlers](pdf_crawler/README.md) for sample PDF crawler.
+## Client Configuration
+Configure the GigClient as below
 
-See [Request Handlers](request_handlers/README.md) for sample API calls.
-
-## Configuration
-Copy config.go.example and create a new file named config.go
-
-Change GIG server urls in config.go
-
-    var ApiUrl = "http://localhost:9000/api/"
-    var NERServerUrl = "http://127.0.0.1:8080/classify"
-    var NormalizeServer = "http://localhost:9000/api/normalize"
+    gigClient := GigClient{
+    		ApiUrl:                 "http://localhost:9000/api/",
+    		ApiKey:                 "[ApiKey]",
+    		NerServerUrl:           "http://localhost:8080/classify",
+    		NormalizationServerUrl: "http://localhost:9000/api/",
+    		OcrServerUrl:           "http://localhost:8081/extract?url=",
+    	}

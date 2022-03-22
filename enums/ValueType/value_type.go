@@ -3,7 +3,7 @@ package ValueType
 const (
 	String        = "string"
 	Date          = "date"
-	WikipediaText = "wikitext"
+	WikipediaText = "wikiText"
 	JSON          = "json"
 	ObjectId      = "objectId"
 	HTML          = "html"
