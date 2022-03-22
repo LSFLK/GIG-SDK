@@ -1,4 +1,4 @@
-package request_handlers
+package client
 
 const(
 	SriLanka = "Sri Lanka"

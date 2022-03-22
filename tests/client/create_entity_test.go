@@ -1,14 +1,13 @@
-package request_handlers
+package client
 
 import (
 	"GIG-SDK/models"
-	"GIG-SDK/request_handlers"
 	"testing"
 )
 
 func TestThatCreateEntityWorks(t *testing.T) {
 	initialEntity := models.Entity{Title: SriLanka}
-	entity, _ := request_handlers.CreateEntity(initialEntity)
+	entity, _ := testClient.CreateEntity(initialEntity)
 
 	if entity.GetTitle() != SriLanka {
 		t.Errorf("create entity failed. %s != %s", entity.GetTitle(), SriLanka)
