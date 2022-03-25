@@ -20,6 +20,10 @@ Configure the GigClient as below
 
 ## Buid, Test, Publish
 
+* To run test and publish commands you need to setup a local GIG server.
+Refer to [https://github.com/LSFLK/GIG] for more details.
+* Modify tests/client/config.go file to change the test server url.
+
 ### `go mod tidy`
 ### `./go_test.sh`
 ### `git tag v0.1.2`
