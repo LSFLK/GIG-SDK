@@ -242,7 +242,7 @@ func (c GigClient) NormalizeName(title string) (string, error) {
 /**
 Upload an image through API
  */
-func (c GigClient) UploadImage(payload models.Upload) error {
+func (c GigClient) UploadFile(payload models.Upload) error {
 
 	if _, err := c.PostRequest(c.ApiUrl+routes.Upload, payload); err != nil {
 		return err
