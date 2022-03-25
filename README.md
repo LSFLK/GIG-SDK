@@ -22,6 +22,8 @@ Configure the GigClient as below
 
 * To run test and publish commands you need to setup a local GIG server.
 Refer to [https://github.com/LSFLK/GIG] for more details.
+* To test NameExtraction and NER related function you need to setup NER server from [https://github.com/lsflk/Standford-NER-python-wrapper]
+* To test OCR related functionality setup OCR server from [https://github.com/umayangag/python-tesseract]
 * Modify tests/client/config.go file to change the test server url.
 
 ### `go mod tidy`

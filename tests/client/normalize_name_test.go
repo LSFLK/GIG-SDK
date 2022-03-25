@@ -10,6 +10,6 @@ func TestThatNormalizeNameWorks(t *testing.T) {
 		t.Error("create entity from text failed", err)
 	}
 	if normalizedText!="Sri Lanka"{
-		t.Error("normalization result incorrect")
+		t.Errorf("normalization result incorrect: %s != %s", normalizedText,"Sri Lanka")
 	}
 }

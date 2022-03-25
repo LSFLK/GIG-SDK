@@ -5,8 +5,8 @@ import (
 )
 
 func TestThatExtractEntityNamesWorks(t *testing.T) {
-	_, err := testClient.ExtractEntityNames("Test content for create entity from text")
+	_, err := testClient.ExtractEntityNames("John who lives in Colombo")
 	if err != nil {
-		t.Error("create entity from text failed", err)
+		t.Error("extract entity names failed:", err)
 	}
 }

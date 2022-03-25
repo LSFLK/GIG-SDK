@@ -7,12 +7,10 @@ import (
 	"github.com/lsflk/gig-sdk/constants/routes"
 	"github.com/lsflk/gig-sdk/enums/ValueType"
 	"github.com/lsflk/gig-sdk/models"
-	"github.com/revel/revel"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
-	"strconv"
 	"time"
 )
 
@@ -21,7 +19,7 @@ const requestHeaderValue = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.
 
 type Response struct {
 	Status  int    `json:"status"`
-	Content string `json:"content"`
+	Payload string `json:"payload"`
 }
 
 type GigClient struct {
@@ -202,7 +200,6 @@ func (c GigClient) ExtractEntityNames(textContent string) ([]models.NERResult, e
 	if err != nil {
 		return nil, err
 	}
-
 	var (
 		entityTitles [][]string
 		results      []models.NERResult
@@ -223,20 +220,16 @@ normalize entity title before appending
  */
 func (c GigClient) NormalizeName(title string) (string, error) {
 
-	normalizedName, err := c.GetRequest(c.NormalizationServerUrl + routes.Normalize + "?searchText=" + url.QueryEscape(title))
-
+	response, err := c.GetRequest(c.NormalizationServerUrl + routes.Normalize + "?searchText=" + url.QueryEscape(title))
 	if err != nil {
 		return "", err
 	}
-	var response Response
-	if json.Unmarshal([]byte(normalizedName), &response); err != nil {
+	var result Response
+	if json.Unmarshal([]byte(response), &result); err != nil {
 		return "", err
 	}
-	if response.Status != 200 {
-		return "", revel.NewErrorFromPanic("Server responded with" + strconv.Itoa(response.Status))
-	}
-	log.Println("normalized", title, "to", response.Content)
-	return response.Content, nil
+	log.Println("normalized", title, "to", result.Payload)
+	return result.Payload, nil
 }
 
 /**
