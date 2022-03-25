@@ -18,3 +18,10 @@ Configure the GigClient as below
     		OcrServerUrl:           "http://localhost:8081/extract?url=",
     	}
 
+## Buid, Test, Publish
+
+### `go mod tidy`
+### `./go_test.sh`
+### `git tag v0.1.2`
+### `git push origin v0.1.2`
+### `GOPROXY=proxy.golang.org go list -m github.com/lsflk/gig-sdk@v0.1.2`
