@@ -10,11 +10,11 @@ import (
 	"time"
 )
 
+// swagger:model
 /**
 It is recommended to use get,set functions to access values of the entity.
 Directly modify attributes only if you know what you are doing.
  */
-// swagger:model
 type Entity struct {
 	Id              bson.ObjectId        `json:"-" bson:"_id,omitempty"`
 	Title           string               `json:"title" bson:"title"`
