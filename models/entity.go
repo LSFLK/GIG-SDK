@@ -15,7 +15,7 @@ It is recommended to use get,set functions to access values of the entity.
 Directly modify attributes only if you know what you are doing.
  */
 type Entity struct {
-	Id              bson.ObjectId        `json:"id" bson:"_id,omitempty"`
+	Id              bson.ObjectId        `json:"-" bson:"_id,omitempty"`
 	Title           string               `json:"title" bson:"title"`
 	ImageURL        string               `json:"image_url" bson:"image_url"`
 	Source          string               `json:"source" bson:"source"`

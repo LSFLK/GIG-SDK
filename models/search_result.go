@@ -31,7 +31,7 @@ func (s SearchResult) ResultFrom(entity Entity, attributes []string) SearchResul
 	s.ImageURL = entity.GetImageURL()
 
 	if len(attributes) == 0 {
-		s.Attributes = entity.GetAttributes()
+		s.Attributes = map[string]Attribute{}
 	} else {
 		s.Attributes = make(map[string]Attribute)
 		for _, attribute := range attributes {
