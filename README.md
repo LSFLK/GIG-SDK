@@ -5,7 +5,7 @@ See [Libraries](libraries/README.md) for generic functions.
 
 ## Installation
 
-go get github.com/lsflk/gig-sdk v0.1.1
+go get github.com/lsflk/gig-sdk vX.X.X
 
 ## Client Configuration
 Configure the GigClient as below
@@ -28,6 +28,6 @@ Refer to [https://github.com/LSFLK/GIG] for more details.
 
 ### `go mod tidy`
 ### `./go_test.sh`
-### `git tag v0.1.2`
-### `git push origin v0.1.2`
-### `GOPROXY=proxy.golang.org go list -m github.com/lsflk/gig-sdk@v0.1.2`
+### `git tag vX.X.X`
+### `git push origin vX.X.X`
+### `GOPROXY=proxy.golang.org go list -m github.com/lsflk/gig-sdk@vX.X.X`
