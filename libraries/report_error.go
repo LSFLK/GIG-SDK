@@ -2,7 +2,7 @@ package libraries
 
 import "log"
 
-func ReportErrorWithoutCrash(err error) {
+func ReportError(err error) {
 	if err != nil {
 		log.Println(err)
 	}
