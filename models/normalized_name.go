@@ -1,18 +1,20 @@
 package models
 
 import (
-	"time"
-
 	"github.com/lsflk/gig-sdk/libraries"
+	"gopkg.in/mgo.v2/bson"
+	"time"
 )
 
 type NormalizedName struct {
-	SearchText     string    `json:"search_text" bson:"search_text"`
-	NormalizedText string    `json:"normalized_text" bson:"normalized_text"`
-	CreatedAt      time.Time `json:"created_at" bson:"created_at"`
+	Id             bson.ObjectId `json:"id" bson:"_id"`
+	SearchText     string        `json:"search_text" bson:"search_text"`
+	NormalizedText string        `json:"normalized_text" bson:"normalized_text"`
+	CreatedAt      time.Time     `json:"created_at" bson:"created_at"`
 }
 
 func (n NormalizedName) NewNormalizedName() NormalizedName {
+	n.Id = bson.NewObjectId()
 	n.CreatedAt = time.Now()
 	return n
 }

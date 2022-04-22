@@ -1,14 +1,16 @@
 package models
 
 import (
+	"gopkg.in/mgo.v2/bson"
 	"time"
 )
 
 /**
 It is recommended to use get,set functions to access values of the entity.
 Directly modify attributes only if you know what you are doing.
-*/
+ */
 type EntityStats struct {
+	Id                     bson.ObjectId            `json:"-" bson:"_id,omitempty"`
 	EntityCount            int                      `json:"entity_count" bson:"entity_count"`
 	RelationCount          int                      `json:"relation_count" bson:"relation_count"`
 	CategoryWiseCount      []CategoryWiseCount      `json:"category_wise_count" bson:"category_wise_count"`
