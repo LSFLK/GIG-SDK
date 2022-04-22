@@ -5,6 +5,5 @@ const (
 	Date          = "date"
 	WikipediaText = "wikiText"
 	JSON          = "json"
-	ObjectId      = "objectId"
 	HTML          = "html"
 )

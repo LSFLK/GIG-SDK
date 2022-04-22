@@ -10,17 +10,18 @@ package libraries
  */
 
 import (
-	pdfcontent "github.com/unidoc/unidoc/pdf/contentstream"
-	pdf "github.com/unidoc/unidoc/pdf/model"
 	"log"
 	"os"
+
+	pdfcontent "github.com/unidoc/unidoc/pdf/contentstream"
+	pdf "github.com/unidoc/unidoc/pdf/model"
 )
 
 const NewPageMarker = "\n*******************\n"
 
 /**
 return the string content of a given PDF file
- */
+*/
 func ParsePdf(source string) string {
 
 	text, err := listContentStreams(source)

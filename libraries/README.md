@@ -32,9 +32,6 @@
 ##### Minimum
     return minimum of a positive number slice
     
-##### ObjectIdInSlice
-    check if a given string exists in a given slice
-    
 ##### ParseCategoriesString
     converts a categories string into a slice
     
