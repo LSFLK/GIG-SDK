@@ -1,8 +1,8 @@
 package models
 
 import (
-	"github.com/lsflk/gig-sdk/libraries"
 	"github.com/PuerkitoBio/goquery"
+	"github.com/lsflk/gig-sdk/libraries"
 	"github.com/pkg/errors"
 	"gopkg.in/mgo.v2/bson"
 	"sort"
@@ -14,7 +14,7 @@ import (
 /**
 It is recommended to use get,set functions to access values of the entity.
 Directly modify attributes only if you know what you are doing.
- */
+*/
 type Entity struct {
 	Id              bson.ObjectId        `json:"-" bson:"_id,omitempty"`
 	Title           string               `json:"title" bson:"title"`
@@ -113,7 +113,8 @@ func (e Entity) GetSourceDate() time.Time {
 
 /**
 Add or update an existing attribute with a new value
- */
+*/
+
 func (e Entity) SetAttribute(attributeName string, value Value) Entity {
 	//iterate through all attributes
 	value.UpdatedAt = time.Now()
@@ -157,7 +158,8 @@ func (e Entity) SetAttribute(attributeName string, value Value) Entity {
 
 /**
 Get an attribute
- */
+*/
+
 func (e Entity) GetAttribute(attributeName string) (Attribute, error) {
 	if attribute, attributeFound := e.Attributes[attributeName]; attributeFound {
 		return attribute, nil
@@ -176,7 +178,8 @@ func (e Entity) RemoveAttribute(attributeName string) Entity {
 
 /**
 Add new link to entity
- */
+*/
+
 func (e Entity) AddLink(link Link) Entity {
 	title, dates := link.GetTitle(), link.GetDates()
 	if title == "" {
@@ -200,7 +203,8 @@ func (e Entity) AddLink(link Link) Entity {
 
 /**
 Add new links to entity
- */
+*/
+
 func (e Entity) AddLinks(links []Link) Entity {
 	entity := e
 	for _, link := range links {
@@ -226,7 +230,8 @@ func (e Entity) GetLinkTitles() []string {
 
 /**
 Create snippet for the entity
- */
+*/
+
 func (e Entity) SetSnippet() Entity {
 	contentAttr, err := e.GetAttribute("content")
 	snippet := ""
@@ -255,7 +260,8 @@ func (e Entity) GetSnippet() string {
 
 /**
 Check if the entity has data
- */
+*/
+
 func (e Entity) HasContent() bool {
 	if len(e.Links) != 0 {
 		return true
@@ -271,7 +277,8 @@ func (e Entity) HasContent() bool {
 
 /**
 Check if the entity has no title, data
- */
+*/
+
 func (e Entity) IsNil() bool {
 	if e.GetTitle() != "" {
 		return false
@@ -281,7 +288,8 @@ func (e Entity) IsNil() bool {
 
 /**
 Add new category to entity
- */
+*/
+
 func (e Entity) AddCategory(category string) Entity {
 	if libraries.StringInSlice(e.GetCategories(), category) {
 		return e
@@ -293,7 +301,8 @@ func (e Entity) AddCategory(category string) Entity {
 
 /**
 Add new categories to entity
- */
+*/
+
 func (e Entity) AddCategories(categories []string) Entity {
 	entity := e
 	for _, category := range categories {
@@ -304,7 +313,8 @@ func (e Entity) AddCategories(categories []string) Entity {
 
 /**
 remove categories from the entity
- */
+*/
+
 func (e Entity) RemoveCategories(categories []string) Entity {
 	var remainingCategories []string
 	for _, category := range e.GetCategories() {
