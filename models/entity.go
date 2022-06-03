@@ -51,7 +51,7 @@ func (e *Entity) SetTitle(titleValue Value) *Entity {
 		"~", "2",
 		"?", "",
 	).Replace(title))
-	titleValue = titleValue.SetValueString(title)
+	titleValue.SetValueString(title)
 	e.SetAttribute("titles", titleValue)
 	if titleAttribute, err := e.GetAttribute("titles"); err == nil {
 		e.Title = titleAttribute.GetValue().GetValueString()
@@ -142,7 +142,7 @@ func (e *Entity) SetAttribute(attributeName string, value Value) *Entity {
 
 			// if value exist but the value source date is missing
 		} else if !(valueIndex == -1 || valueDate.IsZero()) && valuesSlice[valueIndex].GetDate().IsZero() {
-			valuesSlice[valueIndex] = valuesSlice[valueIndex].SetDate(valueDate).SetSource(value.GetSource())
+			valuesSlice[valueIndex].SetDate(valueDate).SetSource(value.GetSource())
 			attribute.Values = valuesSlice
 			e.Attributes[attributeName] = attribute
 		}
@@ -190,7 +190,7 @@ func (e *Entity) AddLink(link Link) *Entity {
 		if linkItem.GetTitle() == title {
 			existingLink = linkItem
 			for _, date := range dates {
-				existingLink = existingLink.AddDate(date)
+				existingLink.AddDate(date)
 			}
 			e.Links[i] = existingLink
 			return e

@@ -8,13 +8,14 @@ import (
 
 /*
 entity set title works
- */
+*/
 func TestThatAttributeGetValueByDateWorks(t *testing.T) {
 
-	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj3)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj0)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj)
+	testEntity := new(models.Entity).
+		SetAttribute(testAttributeKey, *testValueObj3).
+		SetAttribute(testAttributeKey, *testValueObj2).
+		SetAttribute(testAttributeKey, *testValueObj0).
+		SetAttribute(testAttributeKey, *testValueObj)
 
 	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
 
