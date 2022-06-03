@@ -23,7 +23,7 @@ func (n NormalizedName) GetSearchText() string {
 	return n.SearchText
 }
 
-func (n NormalizedName) SetSearchText(value string) NormalizedName {
+func (n *NormalizedName) SetSearchText(value string) *NormalizedName {
 	n.SearchText = libraries.ProcessNameString(value)
 	return n
 }
@@ -32,7 +32,7 @@ func (n NormalizedName) GetNormalizedText() string {
 	return n.NormalizedText
 }
 
-func (n NormalizedName) SetNormalizedText(value string) NormalizedName {
+func (n *NormalizedName) SetNormalizedText(value string) *NormalizedName {
 	n.NormalizedText = value
 	return n
 }
