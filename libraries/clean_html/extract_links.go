@@ -26,16 +26,13 @@ func (c HtmlCleaner) extractLinks(startTag string, n *html.Node, uri string, lin
 			string(href.Val[0]) != "#" &&
 			title.Val != "" &&
 			!libraries.StringContainsAnyInSlice(c.Config.IgnoreTitles, title.Val) {
-
-			linkedEntities = append(linkedEntities,
-				models.Entity{
-					Source: fixedURL,
-				}.
-					SetTitle(models.Value{
-						ValueType:   "string",
-						ValueString: title.Val,
-						Date:        time.Now(),
-					}))
+			linkedEntity := models.Entity{Source: fixedURL}
+			linkedEntity.SetTitle(models.Value{
+				ValueType:   "string",
+				ValueString: title.Val,
+				Date:        time.Now(),
+			})
+			linkedEntities = append(linkedEntities, linkedEntity)
 
 		}
 		startTag = n.Data + " href='" + fixedURL + "' title='" + title.Val + "'"
