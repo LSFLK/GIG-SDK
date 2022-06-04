@@ -2,10 +2,10 @@ package libraries
 
 import "net/url"
 
-/**
-convert relative urls to absolute urls
- */
-func FixUrl(href, base string) (string) {
+/*
+FixUrl - convert relative urls to absolute urls
+*/
+func FixUrl(href, base string) string {
 	uri, err := url.Parse(href)
 	if err != nil {
 		return ""

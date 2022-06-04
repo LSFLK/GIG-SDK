@@ -1,8 +1,8 @@
 package libraries
 
-/**
-return minimum of a positive number slice
- */
+/*
+Minimum - return minimum of a positive number slice
+*/
 func Minimum(list []int) int {
 	min := -1
 	for _, num := range list {

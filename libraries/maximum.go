@@ -1,8 +1,8 @@
 package libraries
 
-/**
-return maximum of a positive number slice
- */
+/*
+Maximum - return maximum of a positive number slice
+*/
 func Maximum(list []int) int {
 	max := -1
 	for _, num := range list {

@@ -24,7 +24,7 @@ func TestThatMatchStringWorksForUnequalStrings(t *testing.T) {
 }
 
 func TestThatMatchStringWorksForPartiallyEqualStrings(t *testing.T) {
-	matchPercent := libraries.StringMatchPercentage("some what similar string", "som wht similar stng")
+	matchPercent := libraries.StringMatchPercentage("some what similar string", "som wht similar string")
 	if matchPercent != 66 {
 		t.Errorf("match string for partially equal strings failed. %d != %d", matchPercent, 66)
 	}

@@ -2,11 +2,11 @@ package libraries
 
 import "strings"
 
-/**
-match strings using Levenshtein distance
+/*
+StringMatchPercentage - match strings using Levenshtein distance
 source: https://en.wikipedia.org/wiki/Levenshtein_distance
 translated from C to Go
- */
+*/
 func StringMatchPercentage(string1 string, string2 string) int {
 	n := len(string1)
 	m := len(string2)
@@ -55,9 +55,9 @@ func StringMatchPercentage(string1 string, string2 string) int {
 	return (maxDifference - v0[n]) * 100 / maxDifference
 }
 
-/**
-Return a boolean value by matching two strings based on a given tolerance
- */
+/*
+StringsMatch - Return a boolean value by matching two strings based on a given tolerance
+*/
 func StringsMatch(string1 string, string2 string, tolerance int) bool {
 	matchPercent := StringMatchPercentage(string1, string2)
 	return matchPercent >= tolerance

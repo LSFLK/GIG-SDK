@@ -5,8 +5,8 @@ import (
 )
 
 /*
-return class attribute values of a html element
- */
+ExtractClass - return class attribute values of a html element
+*/
 func ExtractClass(n *html.Node) string {
 	for _, attr := range n.Attr {
 		if attr.Key == "class" {

@@ -18,11 +18,11 @@ Configure the GigClient as below
     		OcrServerUrl:           "http://localhost:8081/extract?url=",
     	}
 
-## Buid, Test, Publish
+## Build, Test, Publish
 
-* To run test and publish commands you need to setup a local GIG server.
+* To run test and publish commands you need to set up a local GIG server.
 Refer to [https://github.com/LSFLK/GIG] for more details.
-* To test NameExtraction and NER related function you need to setup NER server from [https://github.com/lsflk/Standford-NER-python-wrapper]
+* To test NameExtraction and NER related function you need to set up NER server from [https://github.com/lsflk/Standford-NER-python-wrapper]
 * To test OCR related functionality setup OCR server from [https://github.com/umayangag/python-tesseract]
 * Modify tests/client/config.go file to change the test server url.
 

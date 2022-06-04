@@ -10,7 +10,7 @@ package libraries
  */
 
 import (
-	pdfcontent "github.com/unidoc/unidoc/pdf/contentstream"
+	pdfContent "github.com/unidoc/unidoc/pdf/contentstream"
 	pdf "github.com/unidoc/unidoc/pdf/model"
 	"log"
 	"os"
@@ -18,9 +18,9 @@ import (
 
 const NewPageMarker = "\n*******************\n"
 
-/**
-return the string content of a given PDF file
- */
+/*
+ParsePdf - return the string content of a given PDF file
+*/
 func ParsePdf(source string) string {
 
 	text, err := listContentStreams(source)
@@ -75,15 +75,15 @@ func listContentStreams(inputPath string) (string, error) {
 			return text, err
 		}
 
-		// If the value is an array, the effect shall be as if all of the streams in the array were concatenated,
+		// If the value is an array, the effect shall be as if all the streams in the array were concatenated,
 		// in order, to form a single stream.
 		pageContentStr := ""
-		for _, cstream := range contentStreams {
-			pageContentStr += cstream
+		for _, cStream := range contentStreams {
+			pageContentStr += cStream
 		}
 
-		cstreamParser := pdfcontent.NewContentStreamParser(pageContentStr)
-		txt, err := cstreamParser.ExtractText()
+		cStreamParser := pdfContent.NewContentStreamParser(pageContentStr)
+		txt, err := cStreamParser.ExtractText()
 		text = text + NewPageMarker + txt
 	}
 

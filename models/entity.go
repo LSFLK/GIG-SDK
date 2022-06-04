@@ -11,7 +11,7 @@ import (
 )
 
 // swagger:model
-/**
+/*
 It is recommended to use get,set functions to access values of the entity.
 Directly modify attributes only if you know what you are doing.
 */
@@ -111,10 +111,9 @@ func (e Entity) GetSourceDate() time.Time {
 	return e.SourceDate
 }
 
-/**
-Add or update an existing attribute with a new value
+/*
+SetAttribute - Add or update an existing attribute with a new value
 */
-
 func (e *Entity) SetAttribute(attributeName string, value Value) *Entity {
 	//iterate through all attributes
 	value.UpdatedAt = time.Now()
@@ -155,10 +154,9 @@ func (e *Entity) SetAttribute(attributeName string, value Value) *Entity {
 	return e
 }
 
-/**
-Get an attribute
+/*
+GetAttribute - Get an attribute
 */
-
 func (e Entity) GetAttribute(attributeName string) (Attribute, error) {
 	if attribute, attributeFound := e.Attributes[attributeName]; attributeFound {
 		return attribute, nil
@@ -175,10 +173,9 @@ func (e *Entity) RemoveAttribute(attributeName string) *Entity {
 	return e
 }
 
-/**
-Add new link to entity
+/*
+AddLink - Add new link to entity
 */
-
 func (e *Entity) AddLink(link Link) *Entity {
 	title, dates := link.GetTitle(), link.GetDates()
 	if title == "" {
@@ -200,10 +197,9 @@ func (e *Entity) AddLink(link Link) *Entity {
 	return e
 }
 
-/**
-Add new links to entity
+/*
+AddLinks - Add new links to entity
 */
-
 func (e *Entity) AddLinks(links []Link) *Entity {
 	entity := e
 	for _, link := range links {
@@ -227,10 +223,9 @@ func (e Entity) GetLinkTitles() []string {
 	return titlesSlice
 }
 
-/**
-Create snippet for the entity
+/*
+SetSnippet - Create snippet for the entity
 */
-
 func (e *Entity) SetSnippet() *Entity {
 	contentAttr, err := e.GetAttribute("content")
 	snippet := ""
@@ -257,10 +252,9 @@ func (e Entity) GetSnippet() string {
 	return e.Snippet
 }
 
-/**
-Check if the entity has data
+/*
+HasContent - Check if the entity has data
 */
-
 func (e Entity) HasContent() bool {
 	if len(e.Links) != 0 {
 		return true
@@ -274,10 +268,9 @@ func (e Entity) HasContent() bool {
 	return false
 }
 
-/**
-Check if the entity has no title, data
+/*
+IsNil - Check if the entity has no title, data
 */
-
 func (e Entity) IsNil() bool {
 	if e.GetTitle() != "" {
 		return false
@@ -285,10 +278,9 @@ func (e Entity) IsNil() bool {
 	return !e.HasContent()
 }
 
-/**
-Add new category to entity
+/*
+AddCategory - Add new category to entity
 */
-
 func (e *Entity) AddCategory(category string) *Entity {
 	if libraries.StringInSlice(e.GetCategories(), category) {
 		return e
@@ -298,10 +290,9 @@ func (e *Entity) AddCategory(category string) *Entity {
 	return e
 }
 
-/**
-Add new categories to entity
+/*
+AddCategories - Add new categories to entity
 */
-
 func (e *Entity) AddCategories(categories []string) *Entity {
 	for _, category := range categories {
 		e.AddCategory(category)
@@ -309,10 +300,9 @@ func (e *Entity) AddCategories(categories []string) *Entity {
 	return e
 }
 
-/**
-remove categories from the entity
+/*
+RemoveCategories - remove categories from the entity
 */
-
 func (e *Entity) RemoveCategories(categories []string) *Entity {
 	var remainingCategories []string
 	for _, category := range e.GetCategories() {

@@ -6,9 +6,9 @@ import (
 	"os"
 )
 
-/**
-download a file given the source and destination
- */
+/*
+DownloadFile - download a file given the source and destination
+*/
 func DownloadFile(filePath string, url string) error {
 
 	// Get the data

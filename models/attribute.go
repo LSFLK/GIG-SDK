@@ -32,18 +32,16 @@ func (a Attribute) GetName() string {
 }
 
 /*
-Set New Value to Attribute
+SetValue - Set New Value to Attribute
 */
-
 func (a *Attribute) SetValue(value Value) *Attribute {
 	a.Values = sortValues(append(a.Values, value), "ASC")
 	return a
 }
 
 /*
-Get Last Value of Attribute by default
+GetValue - Get Last Value of Attribute by default
 */
-
 func (a Attribute) GetValue() Value {
 	if len(a.Values) == 0 {
 		return Value{}
@@ -52,9 +50,8 @@ func (a Attribute) GetValue() Value {
 }
 
 /*
-Get Value of Attribute by date
+GetValueByDate - Get Value of Attribute by date
 */
-
 func (a Attribute) GetValueByDate(date time.Time) Value {
 	sortedValues := sortValues(a.Values, "DESC")
 
@@ -69,6 +66,9 @@ func (a Attribute) GetValueByDate(date time.Time) Value {
 	return Value{}
 }
 
+/*
+GetValues - Get values sorted by date
+*/
 func (a Attribute) GetValues() []Value {
 	a.Values = sortValues(a.Values, "ASC")
 	return a.Values

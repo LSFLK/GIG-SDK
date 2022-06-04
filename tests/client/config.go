@@ -4,10 +4,9 @@ import (
 	"github.com/lsflk/gig-sdk/client"
 )
 
-/**
+/*
 Set the GIG server API url here for crawlers
- */
-
+*/
 var testClient = client.GigClient{
 	ApiUrl:                 "http://localhost:9000/api/",
 	ApiKey:                 "[ApiKey]",

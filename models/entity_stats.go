@@ -6,10 +6,9 @@ import (
 )
 
 /*
-It is recommended to use get,set functions to access values of the entity.
+EntityStats - It is recommended to use get,set functions to access values of the entity.
 Directly modify attributes only if you know what you are doing.
 */
-
 type EntityStats struct {
 	Id                     bson.ObjectId            `json:"-" bson:"_id,omitempty"`
 	EntityCount            int                      `json:"entity_count" bson:"entity_count"`
