@@ -50,4 +50,10 @@ var (
 			SetValueString(valueString2).
 			SetDate(date).
 			SetType(valueType)
+
+	testValueObj5 = *new(models.Value).
+			SetSource(source2).
+			SetValueString("different value same date").
+			SetDate(date).
+			SetType(valueType)
 )

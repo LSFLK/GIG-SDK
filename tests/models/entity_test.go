@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"github.com/lsflk/gig-sdk/models"
 	"strings"
 	"testing"
@@ -217,7 +216,7 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithDifferentValuesButWi
 		SetAttribute(testAttributeKey, testValueObj2).
 		SetAttribute(testAttributeKey, testValueObj0).
 		SetAttribute(testAttributeKey, testValueObj).
-		SetAttribute(testAttributeKey, *testValueObj2.SetValueString("different value same date"))
+		SetAttribute(testAttributeKey, testValueObj5)
 
 	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
 	testAttributeValues := testAttribute.GetValues()
@@ -232,8 +231,8 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithDifferentValuesButWi
 	if testAttributeValues[1].GetValueString() == testAttributeValues[2].GetValueString() {
 		t.Errorf(FormatSSES, errString, testAttributeValues[1].GetValueString(), testAttributeValues[2].GetValueString())
 	}
-	if testAttributeValues[1].GetDate() != testAttributeValues[2].GetDate() {
-		t.Errorf(FormatSSUS, errString, testAttributeValues[1].GetDate(), testAttributeValues[2].GetDate())
+	if testAttributeValues[0].GetDate() != testAttributeValues[1].GetDate() {
+		t.Errorf(FormatSSUS, errString, testAttributeValues[0].GetDate(), testAttributeValues[1].GetDate())
 	}
 }
 
@@ -261,7 +260,6 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithSameValueAndNewValue
 	if testValueObj.GetDate().Before(testValueObj2.GetDate()) != true {
 		t.Errorf(FormatSTUT, errString, testValueObj.GetDate().Before(testValueObj2.GetDate()), true)
 	}
-	fmt.Println(testAttributeValues)
 	if testAttributeValues[1].GetValueString() != testAttributeValues[2].GetValueString() {
 		t.Errorf(FormatSSUS, errString, testAttributeValues[1].GetValueString(), testAttributeValues[2].GetValueString())
 	}
