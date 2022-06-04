@@ -15,7 +15,7 @@ import (
 )
 
 const requestHeaderKey = "User-Agent"
-const requestHeaderValue = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+const requestHeaderValue = "Mozilla/5.0 (compatible; Googlebot/2.1; +https://www.google.com/bot.html)"
 
 type Response struct {
 	Status  int    `json:"status"`
@@ -30,10 +30,11 @@ type GigClient struct {
 	OcrServerUrl           string `json:"ocr_server_url" bson:"ocr_server_url"`
 }
 
-/**
-	get the response string for a given url
- */
-func (c GigClient) GetRequest(uri string) (string, error) {
+/*
+get the response string for a given url
+*/
+
+func (c *GigClient) GetRequest(uri string) (string, error) {
 	transport := &http.Transport{
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true,
@@ -55,10 +56,11 @@ func (c GigClient) GetRequest(uri string) (string, error) {
 	return string(body), nil
 }
 
-/**
+/*
 Post to an url with data
- */
-func (c GigClient) PostRequest(uri string, data interface{}) (string, error) {
+*/
+
+func (c *GigClient) PostRequest(uri string, data interface{}) (string, error) {
 
 	// json encode interface
 	b, err := json.Marshal(data)
@@ -81,10 +83,11 @@ func (c GigClient) PostRequest(uri string, data interface{}) (string, error) {
 	return string(body), err
 }
 
-/**
+/*
 GetEntity
- */
-func (c GigClient) GetEntity(title string) (models.Entity, error) {
+*/
+
+func (c *GigClient) GetEntity(title string) (models.Entity, error) {
 	var entity models.Entity
 	resp, err := c.GetRequest(c.ApiUrl + routes.Entity + title)
 	if err != nil {
@@ -94,12 +97,11 @@ func (c GigClient) GetEntity(title string) (models.Entity, error) {
 	return entity, err
 }
 
-func (c GigClient) CreateEntityFromText(textContent string, title string, categories []string, entityTitles []models.NERResult) error {
+func (c *GigClient) CreateEntityFromText(textContent string, title string, categories []string, entityTitles []models.NERResult) error {
 	//decode to entity
 	var entities []models.Entity
-	entity := models.Entity{}.
-		SetTitle(models.Value{}.SetType(ValueType.String).SetValueString(title)).
-		SetAttribute("content", models.Value{}.
+	entity := *new(models.Entity).SetTitle(*new(models.Value).SetType(ValueType.String).SetValueString(title)).
+		SetAttribute("content", *new(models.Value).
 			SetType(ValueType.String).
 			SetValueString(textContent)).
 		AddCategories(categories)
@@ -107,7 +109,11 @@ func (c GigClient) CreateEntityFromText(textContent string, title string, catego
 	for _, entityObject := range entityTitles {
 		//normalizedName, err := utils.NormalizeName(entityObject.EntityName)
 		//if err == nil {
-		entities = append(entities, models.Entity{Title: entityObject.EntityName}.AddCategory(entityObject.Category))
+		childEntity := *new(models.Entity).
+			SetTitle(*new(models.Value).SetType(ValueType.String).
+				SetValueString(entityObject.EntityName)).
+			AddCategory(entityObject.Category)
+		entities = append(entities, childEntity)
 		//}
 	}
 
@@ -122,15 +128,16 @@ func (c GigClient) CreateEntityFromText(textContent string, title string, catego
 	return saveErr
 }
 
-/**
+/*
 Add entity as an attribute to a given entity
- */
-func (c GigClient) AddEntityAsAttribute(entity models.Entity, attributeName string, attributeEntity models.Entity) (models.Entity, models.Entity, error) {
+*/
+
+func (c *GigClient) AddEntityAsAttribute(entity models.Entity, attributeName string, attributeEntity models.Entity) (models.Entity, models.Entity, error) {
 	entity, linkEntity, err := c.AddEntityAsLink(entity, attributeEntity)
 	if err != nil {
 		return entity, attributeEntity, err
 	}
-	entity = entity.SetAttribute(attributeName, models.Value{
+	entity.SetAttribute(attributeName, models.Value{
 		ValueType:   ValueType.String,
 		ValueString: linkEntity.Title,
 	})
@@ -138,36 +145,39 @@ func (c GigClient) AddEntityAsAttribute(entity models.Entity, attributeName stri
 	return entity, linkEntity, nil
 }
 
-/**
-Add entity as an link to a given entity
- */
-func (c GigClient) AddEntityAsLink(entity models.Entity, linkEntity models.Entity) (models.Entity, models.Entity, error) {
+/*
+Add entity as a link to a given entity
+*/
+
+func (c *GigClient) AddEntityAsLink(entity models.Entity, linkEntity models.Entity) (models.Entity, models.Entity, error) {
 	createdLinkEntity, linkEntityCreateError := c.CreateEntity(linkEntity)
 	if linkEntityCreateError != nil {
 		return entity, createdLinkEntity, linkEntityCreateError
 	}
-	entity = entity.AddLink(models.Link{}.SetTitle(linkEntity.GetTitle()).AddDate(entity.GetSourceDate()))
+	entity.AddLink(*new(models.Link).SetTitle(linkEntity.GetTitle()).AddDate(entity.GetSourceDate()))
 	return entity, createdLinkEntity, nil
 }
 
-/**
+/*
 Add list of related entities to a given entity
- */
-func (c GigClient) AddEntitiesAsLinks(entity models.Entity, linkEntities []models.Entity) (models.Entity, error) {
+*/
+
+func (c *GigClient) AddEntitiesAsLinks(entity models.Entity, linkEntities []models.Entity) (models.Entity, error) {
 	createdLinkEntities, linkEntityCreateError := c.CreateEntities(linkEntities)
 	if linkEntityCreateError != nil {
 		return entity, linkEntityCreateError
 	}
 	for _, linkEntity := range createdLinkEntities {
-		entity = entity.AddLink(models.Link{}.SetTitle(linkEntity.GetTitle()).AddDate(entity.GetSourceDate()))
+		entity.AddLink(*new(models.Link).SetTitle(linkEntity.GetTitle()).AddDate(entity.GetSourceDate()))
 	}
 	return entity, nil
 }
 
-/**
+/*
 Create a new entity and save to GIG
- */
-func (c GigClient) CreateEntity(entity models.Entity) (models.Entity, error) {
+*/
+
+func (c *GigClient) CreateEntity(entity models.Entity) (models.Entity, error) {
 
 	resp, err := c.PostRequest(c.ApiUrl+routes.Add, entity)
 	if err != nil {
@@ -177,10 +187,11 @@ func (c GigClient) CreateEntity(entity models.Entity) (models.Entity, error) {
 	return entity, err
 }
 
-/**
+/*
 Create a list of new entities and save to GIG
- */
-func (c GigClient) CreateEntities(entities []models.Entity) ([]models.Entity, error) {
+*/
+
+func (c *GigClient) CreateEntities(entities []models.Entity) ([]models.Entity, error) {
 
 	resp, err := c.PostRequest(c.ApiUrl+routes.AddBatch, entities)
 	if err != nil {
@@ -191,10 +202,11 @@ func (c GigClient) CreateEntities(entities []models.Entity) ([]models.Entity, er
 	return entities, err
 }
 
-/**
+/*
 NER extraction
- */
-func (c GigClient) ExtractEntityNames(textContent string) ([]models.NERResult, error) {
+*/
+
+func (c *GigClient) ExtractEntityNames(textContent string) ([]models.NERResult, error) {
 
 	apiResp, err := c.PostRequest(c.NerServerUrl, textContent)
 	if err != nil {
@@ -209,16 +221,17 @@ func (c GigClient) ExtractEntityNames(textContent string) ([]models.NERResult, e
 	}
 
 	for _, entity := range entityTitles {
-		newNERResult := models.NERResult{}.SetCategory(entity[1]).SetEntityName(entity[0])
+		newNERResult := *new(models.NERResult).SetCategory(entity[1]).SetEntityName(entity[0])
 		results = append(results, newNERResult)
 	}
 	return results, nil
 }
 
-/**
+/*
 normalize entity title before appending
- */
-func (c GigClient) NormalizeName(title string) (string, error) {
+*/
+
+func (c *GigClient) NormalizeName(title string) (string, error) {
 
 	response, err := c.GetRequest(c.NormalizationServerUrl + routes.Normalize + "?searchText=" + url.QueryEscape(title))
 	if err != nil {
@@ -232,10 +245,11 @@ func (c GigClient) NormalizeName(title string) (string, error) {
 	return result.Payload, nil
 }
 
-/**
+/*
 Upload an image through API
- */
-func (c GigClient) UploadFile(payload models.Upload) error {
+*/
+
+func (c *GigClient) UploadFile(payload models.Upload) error {
 
 	if _, err := c.PostRequest(c.ApiUrl+routes.Upload, payload); err != nil {
 		return err

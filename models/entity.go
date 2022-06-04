@@ -42,7 +42,7 @@ func (e Entity) GetId() bson.ObjectId {
 	return e.Id
 }
 
-func (e Entity) SetTitle(titleValue Value) Entity {
+func (e *Entity) SetTitle(titleValue Value) *Entity {
 	// preprocess title
 	title := titleValue.GetValueString()
 	title = strings.TrimSpace(strings.NewReplacer(
@@ -51,8 +51,8 @@ func (e Entity) SetTitle(titleValue Value) Entity {
 		"~", "2",
 		"?", "",
 	).Replace(title))
-	titleValue = titleValue.SetValueString(title)
-	e.Attributes = e.SetAttribute("titles", titleValue).Attributes
+	titleValue.SetValueString(title)
+	e.SetAttribute("titles", titleValue)
 	if titleAttribute, err := e.GetAttribute("titles"); err == nil {
 		e.Title = titleAttribute.GetValue().GetValueString()
 		if e.GetSourceDate().IsZero() && !titleAttribute.GetValue().GetDate().IsZero() {
@@ -67,18 +67,18 @@ func (e Entity) GetTitle() string {
 	return e.Title
 }
 
-func (e Entity) SetImageURL(value string) Entity {
+func (e *Entity) SetImageURL(value string) *Entity {
 	e.ImageURL = value
 	e.UpdatedAt = time.Now()
 
 	return e
 }
 
-func (e Entity) GetImageURL() string {
+func (e *Entity) GetImageURL() string {
 	return e.ImageURL
 }
 
-func (e Entity) SetSource(value string) Entity {
+func (e *Entity) SetSource(value string) *Entity {
 	e.Source = value
 	e.UpdatedAt = time.Now()
 
@@ -89,7 +89,7 @@ func (e Entity) GetSource() string {
 	return e.Source
 }
 
-func (e Entity) SetSourceSignature(value string) Entity {
+func (e *Entity) SetSourceSignature(value string) *Entity {
 	e.SourceSignature = value
 	e.UpdatedAt = time.Now()
 
@@ -100,7 +100,7 @@ func (e Entity) GetSourceSignature() string {
 	return e.SourceSignature
 }
 
-func (e Entity) SetSourceDate(value time.Time) Entity {
+func (e *Entity) SetSourceDate(value time.Time) *Entity {
 	e.SourceDate = value
 	e.UpdatedAt = time.Now()
 
@@ -115,7 +115,7 @@ func (e Entity) GetSourceDate() time.Time {
 Add or update an existing attribute with a new value
 */
 
-func (e Entity) SetAttribute(attributeName string, value Value) Entity {
+func (e *Entity) SetAttribute(attributeName string, value Value) *Entity {
 	//iterate through all attributes
 	value.UpdatedAt = time.Now()
 	if e.Attributes == nil {
@@ -136,21 +136,20 @@ func (e Entity) SetAttribute(attributeName string, value Value) Entity {
 			}
 		}
 		// if the new value doesn't exist already
-		if valueIndex == -1 {
-			e.Attributes[attributeName] = attribute.SetValue(value) // append new value to the attribute
+		if valueIndex == -1 || valueByDate.GetValueString() != value.GetValueString() {
+			attribute.SetValue(value)
+			e.Attributes[attributeName] = attribute // append new value to the attribute
 
 			// if value exist but the value source date is missing
 		} else if !(valueIndex == -1 || valueDate.IsZero()) && valuesSlice[valueIndex].GetDate().IsZero() {
-			valuesSlice[valueIndex] = valuesSlice[valueIndex].SetDate(valueDate).SetSource(value.GetSource())
+			valuesSlice[valueIndex].SetDate(valueDate).SetSource(value.GetSource())
 			attribute.Values = valuesSlice
 			e.Attributes[attributeName] = attribute
-		} else if valueByDate.GetValueString() != value.GetValueString() {
-			e.Attributes[attributeName] = attribute.SetValue(value)
 		}
 
 	} else { //else create new attribute and append value
-
-		e.Attributes[attributeName] = Attribute{}.SetName(attributeName).SetValue(value)
+		attribute := new(Attribute).SetName(attributeName).SetValue(value)
+		e.Attributes[attributeName] = *attribute
 	}
 	e.UpdatedAt = time.Now()
 	return e
@@ -171,7 +170,7 @@ func (e Entity) GetAttributes() map[string]Attribute {
 	return e.Attributes
 }
 
-func (e Entity) RemoveAttribute(attributeName string) Entity {
+func (e *Entity) RemoveAttribute(attributeName string) *Entity {
 	delete(e.Attributes, attributeName)
 	return e
 }
@@ -180,7 +179,7 @@ func (e Entity) RemoveAttribute(attributeName string) Entity {
 Add new link to entity
 */
 
-func (e Entity) AddLink(link Link) Entity {
+func (e *Entity) AddLink(link Link) *Entity {
 	title, dates := link.GetTitle(), link.GetDates()
 	if title == "" {
 		return e
@@ -191,7 +190,7 @@ func (e Entity) AddLink(link Link) Entity {
 		if linkItem.GetTitle() == title {
 			existingLink = linkItem
 			for _, date := range dates {
-				existingLink = existingLink.AddDate(date)
+				existingLink.AddDate(date)
 			}
 			e.Links[i] = existingLink
 			return e
@@ -205,7 +204,7 @@ func (e Entity) AddLink(link Link) Entity {
 Add new links to entity
 */
 
-func (e Entity) AddLinks(links []Link) Entity {
+func (e *Entity) AddLinks(links []Link) *Entity {
 	entity := e
 	for _, link := range links {
 		entity = e.AddLink(link)
@@ -232,7 +231,7 @@ func (e Entity) GetLinkTitles() []string {
 Create snippet for the entity
 */
 
-func (e Entity) SetSnippet() Entity {
+func (e *Entity) SetSnippet() *Entity {
 	contentAttr, err := e.GetAttribute("content")
 	snippet := ""
 	if err == nil { // if content attribute found
@@ -290,7 +289,7 @@ func (e Entity) IsNil() bool {
 Add new category to entity
 */
 
-func (e Entity) AddCategory(category string) Entity {
+func (e *Entity) AddCategory(category string) *Entity {
 	if libraries.StringInSlice(e.GetCategories(), category) {
 		return e
 	}
@@ -303,19 +302,18 @@ func (e Entity) AddCategory(category string) Entity {
 Add new categories to entity
 */
 
-func (e Entity) AddCategories(categories []string) Entity {
-	entity := e
+func (e *Entity) AddCategories(categories []string) *Entity {
 	for _, category := range categories {
-		entity = e.AddCategory(category)
+		e.AddCategory(category)
 	}
-	return entity
+	return e
 }
 
 /**
 remove categories from the entity
 */
 
-func (e Entity) RemoveCategories(categories []string) Entity {
+func (e *Entity) RemoveCategories(categories []string) *Entity {
 	var remainingCategories []string
 	for _, category := range e.GetCategories() {
 		if !libraries.StringInSlice(categories, category) {

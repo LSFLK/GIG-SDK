@@ -8,10 +8,10 @@ import (
 
 /*
 entity set title works
- */
+*/
 func TestThatEntitySetTitleWorks(t *testing.T) {
 
-	testEntity := models.Entity{}.SetTitle(testValueObj)
+	testEntity := new(models.Entity).SetTitle(testValueObj)
 	titleAttribute, err := testEntity.GetAttribute("titles")
 
 	titleValue := titleAttribute.GetValue()
@@ -42,10 +42,10 @@ func TestThatEntitySetTitleWorks(t *testing.T) {
 
 /*
 set attribute work for new attribute
- */
+*/
 func TestThatEntitySetAttributeWorksForNewAttribute(t *testing.T) {
 
-	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj)
+	testEntity := new(models.Entity).SetAttribute(testAttributeKey, testValueObj)
 	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
 
 	testValue := testAttribute.GetValue()
@@ -78,10 +78,10 @@ func evaluatedSetAttributeWorks(testValue models.Value, t *testing.T, errString 
 
 /*
 set attribute works for existing attribute with same value
- */
+*/
 func TestThatEntitySetAttributeWorksForExistingAttributeWithSameValue(t *testing.T) {
 
-	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj)
+	testEntity := new(models.Entity).SetAttribute(testAttributeKey, testValueObj)
 	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj)
 
 	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
@@ -95,10 +95,10 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithSameValue(t *testing
 
 /*
 set attribute works for existing attribute with new value after the latest existing value
- */
+*/
 func TestThatEntitySetAttributeWorksForExistingAttributeWithNewValueAfterLatestExistingValue(t *testing.T) {
 
-	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj)
+	testEntity := new(models.Entity).SetAttribute(testAttributeKey, testValueObj)
 	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2)
 
 	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
@@ -116,10 +116,10 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithNewValueAfterLatestE
 
 /*
 set attribute works for existing attribute with new value in between the values
- */
+*/
 func TestThatEntitySetAttributeWorksForExistingAttributeWithNewValueInBetweenExistingValues(t *testing.T) {
 
-	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj)
+	testEntity := new(models.Entity).SetAttribute(testAttributeKey, testValueObj)
 	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj3)
 	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2)
 
@@ -156,28 +156,28 @@ func evaluateEntitySetAttributeWorksForExistingAttributeWithNewValue(testValue m
 
 /*
 set attribute works for existing attribute with new value before the first value date
- */
+*/
 func TestThatEntitySetAttributeWorksForExistingAttributeWithNewValueBeforeTheFirstValue(t *testing.T) {
 
-	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj3)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2)
+	testEntity := *new(models.Entity).SetAttribute(testAttributeKey, testValueObj3).SetAttribute(testAttributeKey, testValueObj2)
 	evaluateEntitySetAttributeWorksForExistingAttribute(testEntity, t)
 }
 
 /*
 set attribute works for existing attribute with same value string but with zero date in existing value
- */
+*/
 func TestThatEntitySetAttributeWorksForExistingAttributeWithSameValueButWithZeroDateInExistingValue(t *testing.T) {
 
-	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj3)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj0)
+	testEntity := *new(models.Entity).
+		SetAttribute(testAttributeKey, testValueObj3).
+		SetAttribute(testAttributeKey, testValueObj2).
+		SetAttribute(testAttributeKey, testValueObj0)
 	evaluateEntitySetAttributeWorksForExistingAttribute(testEntity, t)
 
 }
 
 func evaluateEntitySetAttributeWorksForExistingAttribute(testEntity models.Entity, t *testing.T) {
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj)
+	testEntity.SetAttribute(testAttributeKey, testValueObj)
 
 	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
 	testValue := testAttribute.GetValues()[0]
@@ -208,14 +208,15 @@ func evaluateEntitySetAttributeWorksForExistingAttribute(testEntity models.Entit
 
 /*
 set attribute works for existing attribute with different values string but with same date
- */
+*/
 func TestThatEntitySetAttributeWorksForExistingAttributeWithDifferentValuesButWithSameDate(t *testing.T) {
 
-	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj3)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj0)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2.SetValueString("different value same date"))
+	testEntity := new(models.Entity).
+		SetAttribute(testAttributeKey, testValueObj3).
+		SetAttribute(testAttributeKey, testValueObj2).
+		SetAttribute(testAttributeKey, testValueObj0).
+		SetAttribute(testAttributeKey, testValueObj).
+		SetAttribute(testAttributeKey, testValueObj5)
 
 	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
 	testAttributeValues := testAttribute.GetValues()
@@ -230,21 +231,22 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithDifferentValuesButWi
 	if testAttributeValues[1].GetValueString() == testAttributeValues[2].GetValueString() {
 		t.Errorf(FormatSSES, errString, testAttributeValues[1].GetValueString(), testAttributeValues[2].GetValueString())
 	}
-	if testAttributeValues[1].GetDate() != testAttributeValues[2].GetDate() {
-		t.Errorf(FormatSSUS, errString, testAttributeValues[1].GetDate(), testAttributeValues[2].GetDate())
+	if testAttributeValues[0].GetDate() != testAttributeValues[1].GetDate() {
+		t.Errorf(FormatSSUS, errString, testAttributeValues[0].GetDate(), testAttributeValues[1].GetDate())
 	}
 }
 
 /*
 set attribute works for existing attribute with same value string and new value with past date
- */
+*/
 func TestThatEntitySetAttributeWorksForExistingAttributeWithSameValueAndNewValueWithPastDate(t *testing.T) {
 
-	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj3)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj0)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2.SetDate(testValueObj.GetDate()))
+	testEntity := new(models.Entity).
+		SetAttribute(testAttributeKey, testValueObj3).
+		SetAttribute(testAttributeKey, testValueObj2).
+		SetAttribute(testAttributeKey, testValueObj0).
+		SetAttribute(testAttributeKey, testValueObj).
+		SetAttribute(testAttributeKey, testValueObj4)
 	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
 	testAttributeValues := testAttribute.GetValues()
 
@@ -265,14 +267,14 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithSameValueAndNewValue
 
 /*
 set attribute works for existing attribute with same value string and new value with future date within value lifetime
- */
+*/
 func TestThatEntitySetAttributeWorksForExistingAttributeWithSameValueAndNewValueWithFutureDateWithinValueLifetime(t *testing.T) {
 
-	testEntity := models.Entity{}.SetAttribute(testAttributeKey, testValueObj3)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj0)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj)
-	testEntity = testEntity.SetAttribute(testAttributeKey, testValueObj2.SetDate(date25))
+	testEntity := new(models.Entity).SetAttribute(testAttributeKey, testValueObj3).
+		SetAttribute(testAttributeKey, testValueObj2).
+		SetAttribute(testAttributeKey, testValueObj0).
+		SetAttribute(testAttributeKey, testValueObj).
+		SetAttribute(testAttributeKey, *testValueObj2.SetDate(date25))
 	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
 
 	errString := "entity set attribute for existing attribute with same value and new value with future date withing value lifetime failed."

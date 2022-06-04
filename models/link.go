@@ -11,7 +11,7 @@ type Link struct {
 	Dates []time.Time `json:"dates" bson:"dates"`
 }
 
-func (l Link) SetTitle(title string) Link {
+func (l *Link) SetTitle(title string) *Link {
 	l.Title = title
 	return l
 }
@@ -20,7 +20,7 @@ func (l Link) GetTitle() string {
 	return l.Title
 }
 
-func (l Link) AddDate(date time.Time) Link {
+func (l *Link) AddDate(date time.Time) *Link {
 	if !libraries.DateInSlice(l.Dates, date) {
 		l.Dates = append(l.Dates, date)
 	}
