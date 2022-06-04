@@ -6,7 +6,7 @@ import (
 )
 
 func TestThatFileTypeCheckTrueWorks(t *testing.T) {
-	link := "https://www.buildings.gov.lk/index.php?lang=en"
+	link := "https://www.buildings.gov.lk/index.php"
 	result := libraries.FileTypeCheck(link, "php")
 	if result != true {
 		t.Errorf("file type check true failed. %t != %t", result, true)

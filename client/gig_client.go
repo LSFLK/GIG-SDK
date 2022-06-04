@@ -66,6 +66,9 @@ func (c *GigClient) PostRequest(uri string, data interface{}) (string, error) {
 
 	// json encode interface
 	jsonStr, err := json.Marshal(data)
+	if err != nil {
+		return "", err
+	}
 
 	req, err := http.NewRequest("POST", uri, bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
@@ -199,11 +202,7 @@ CreateEntities - Create a list of new entities and save to GIG
 */
 func (c *GigClient) CreateEntities(entities []models.Entity) ([]models.Entity, error) {
 
-	resp, err := c.PostRequest(c.ApiUrl+routes.AddBatch, entities)
-	if err != nil {
-		return entities, err
-	}
-	err = json.Unmarshal([]byte(resp), &entities)
+	_, err := c.PostRequest(c.ApiUrl+routes.AddBatch, entities)
 	if err != nil {
 		return entities, err
 	}
