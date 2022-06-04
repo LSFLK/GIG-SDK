@@ -12,10 +12,10 @@ entity set title works
 func TestThatAttributeGetValueByDateWorks(t *testing.T) {
 
 	testEntity := new(models.Entity).
-		SetAttribute(testAttributeKey, *testValueObj3).
-		SetAttribute(testAttributeKey, *testValueObj2).
-		SetAttribute(testAttributeKey, *testValueObj0).
-		SetAttribute(testAttributeKey, *testValueObj)
+		SetAttribute(testAttributeKey, testValueObj3).
+		SetAttribute(testAttributeKey, testValueObj2).
+		SetAttribute(testAttributeKey, testValueObj0).
+		SetAttribute(testAttributeKey, testValueObj)
 
 	testAttribute, err := testEntity.GetAttribute(testAttributeKey)
 

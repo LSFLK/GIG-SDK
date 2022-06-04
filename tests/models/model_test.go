@@ -22,26 +22,32 @@ var (
 	formattedValueString = "2test -title"
 	testAttributeKey     = "test_attribute"
 
-	testValueObj0 = models.Value{}.
-		SetSource(source0).
-		SetValueString(valueString).
-		SetType(valueType)
+	testValueObj0 = *new(models.Value).
+			SetSource(source0).
+			SetValueString(valueString).
+			SetType(valueType)
 
-	testValueObj = models.Value{}.
-		SetSource(source).
-		SetValueString(valueString).
-		SetDate(date).
-		SetType(valueType)
+	testValueObj = *new(models.Value).
+			SetSource(source).
+			SetValueString(valueString).
+			SetDate(date).
+			SetType(valueType)
 
-	testValueObj2 = models.Value{}.
-		SetSource(source2).
-		SetValueString(valueString2).
-		SetDate(date2).
-		SetType(valueType)
+	testValueObj2 = *new(models.Value).
+			SetSource(source2).
+			SetValueString(valueString2).
+			SetDate(date2).
+			SetType(valueType)
 
-	testValueObj3 = models.Value{}.
-		SetSource(source3).
-		SetValueString(valueString3).
-		SetDate(date3).
-		SetType(valueType)
+	testValueObj3 = *new(models.Value).
+			SetSource(source3).
+			SetValueString(valueString3).
+			SetDate(date3).
+			SetType(valueType)
+
+	testValueObj4 = *new(models.Value).
+			SetSource(source2).
+			SetValueString(valueString2).
+			SetDate(date).
+			SetType(valueType)
 )
