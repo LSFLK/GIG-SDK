@@ -176,7 +176,9 @@ func (c *GigClient) AddEntitiesAsLinks(entity *models.Entity, linkEntities []mod
 		return linkEntityCreateError
 	}
 	for _, linkEntity := range createdLinkEntities {
-		entity.AddLink(*new(models.Link).SetTitle(linkEntity.GetTitle()).AddDate(entity.GetSourceDate()))
+		newLink := models.Link{}
+		newLink.SetTitle(linkEntity.GetTitle()).AddDate(entity.GetSourceDate())
+		entity.AddLink(newLink)
 	}
 	return nil
 }
