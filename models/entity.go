@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/PuerkitoBio/goquery"
+	"github.com/lsflk/gig-sdk/enums/ValueType"
 	"github.com/lsflk/gig-sdk/libraries"
 	"github.com/pkg/errors"
 	"gopkg.in/mgo.v2/bson"
@@ -60,6 +61,18 @@ func (e *Entity) SetTitle(titleValue Value) *Entity {
 		}
 	}
 
+	return e
+}
+
+func (e *Entity) SetNewTitle(newTitle string, source string, sourceDate time.Time) *Entity {
+	e.SetAttribute("new_title",
+		Value{
+			ValueType:   ValueType.String,
+			ValueString: newTitle,
+			Source:      source,
+			Date:        sourceDate,
+			UpdatedAt:   time.Now(),
+		})
 	return e
 }
 
