@@ -33,7 +33,7 @@ type GigClient struct {
 /*
 GetRequest - get the response string for a given url
 */
-func (c *GigClient) GetRequest(uri string) (string, error) {
+func (c GigClient) GetRequest(uri string) (string, error) {
 	transport := &http.Transport{
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true,
