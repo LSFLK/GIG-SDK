@@ -7,4 +7,5 @@ const (
 	JSON          = "json"
 	ObjectId      = "objectId"
 	HTML          = "html"
+	Number        = "number"
 )
