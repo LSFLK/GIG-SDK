@@ -148,7 +148,7 @@ func (e *Entity) SetAttribute(attributeName string, value Value) *Entity {
 			}
 		}
 		// if the new value doesn't exist already
-		if valueIndex == -1 || valueByDate.GetValueString() != value.GetValueString() {
+		if valueIndex == -1 {
 			attribute.SetValue(value)
 			e.Attributes[attributeName] = attribute // append new value to the attribute
 
@@ -157,6 +157,9 @@ func (e *Entity) SetAttribute(attributeName string, value Value) *Entity {
 			valuesSlice[valueIndex].SetDate(valueDate).SetSource(value.GetSource())
 			attribute.Values = valuesSlice
 			e.Attributes[attributeName] = attribute
+		} else if valueByDate.GetValueString() != value.GetValueString() {
+			attribute.SetValue(value)
+			e.Attributes[attributeName] = attribute // append new value to the attribute
 		}
 
 	} else { //else create new attribute and append value
