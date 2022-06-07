@@ -288,3 +288,27 @@ func TestThatEntitySetAttributeWorksForExistingAttributeWithSameValueAndNewValue
 		t.Errorf(FormatSTUT, errString, testValueObj.GetDate().Before(date25), true)
 	}
 }
+
+/*
+AppendToAttributeValue
+*/
+func TestThatAppendToAttributeValueWorks(t *testing.T) {
+	testEntity := models.Entity{}
+
+	//append to null attribute
+	initialValue := *new(models.Value).SetSource("test").SetValueString("value1")
+
+	testEntity.AppendToAttributeValue("test_attr", initialValue)
+	attribute, err := testEntity.GetAttribute("test_attr")
+	if err != nil || attribute.GetValue().GetValueString() != `["value1"]` {
+		t.Errorf("AppendToAttributeValue - appending initial value failed")
+	}
+
+	secondValue := *new(models.Value).SetSource("test").SetValueString("value2")
+
+	testEntity.AppendToAttributeValue("test_attr", secondValue)
+	attribute, err = testEntity.GetAttribute("test_attr")
+	if err != nil || attribute.GetValue().GetValueString() != `["value1","value2"]` {
+		t.Errorf("AppendToAttributeValue - appending second value failed")
+	}
+}

@@ -75,7 +75,6 @@ func (c *GigClient) PostRequest(uri string, data interface{}) (string, error) {
 	req.Header.Set("ApiKey", "ApiKey "+c.ApiKey)
 	client := http.Client{}
 	resp, err := client.Do(req)
-	log.Println("Post response:", resp)
 	if err != nil {
 		return "", err
 	}

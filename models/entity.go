@@ -1,11 +1,13 @@
 package models
 
 import (
+	"encoding/json"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/lsflk/gig-sdk/enums/ValueType"
 	"github.com/lsflk/gig-sdk/libraries"
 	"github.com/pkg/errors"
 	"gopkg.in/mgo.v2/bson"
+	"log"
 	"sort"
 	"strings"
 	"time"
@@ -122,6 +124,63 @@ func (e *Entity) SetSourceDate(value time.Time) *Entity {
 
 func (e Entity) GetSourceDate() time.Time {
 	return e.SourceDate
+}
+
+/*
+AppendToAttributeValue - Append an item to an existing array value
+It is required for the value type to be compatible with array operations
+*/
+func (e *Entity) AppendToAttributeValue(attributeName string, value Value) *Entity {
+
+	//iterate through all attributes
+	value.UpdatedAt = time.Now()
+	if e.Attributes == nil {
+		e.Attributes = make(map[string]Attribute)
+	}
+	attribute, attributeFound := e.GetAttribute(attributeName)
+
+	if attributeFound == nil {
+		valueIndex := -1
+		valuesSlice := attribute.GetValues()
+
+		for i, existingValue := range valuesSlice {
+			if existingValue.GetDate() == value.GetDate() && existingValue.Source == value.Source {
+				valueIndex = i
+				break
+			}
+		}
+		appendedValue := valuesSlice[valueIndex]
+		var valueObj []string
+		unmarshalErr := json.Unmarshal([]byte(appendedValue.ValueString), &valueObj)
+		if unmarshalErr != nil {
+			log.Println("unsupported value string to unmarshal:", value)
+			return e
+		}
+		valueObj = append(valueObj, value.ValueString)
+		valueString, err := json.Marshal(valueObj)
+		if err != nil {
+			log.Println("error while converting back to json array:", value)
+			return e
+		}
+		valuesSlice[valueIndex].ValueString = string(valueString)
+		attribute.Values = valuesSlice
+		e.Attributes[attributeName] = attribute
+		return e
+
+	} else { //else create new attribute and append value
+		jsonArray, jsonErr := json.Marshal([]string{value.ValueString})
+		if jsonErr != nil {
+			log.Println("invalid append to attribute value type:", value)
+			return e
+		}
+
+		valueArray := *new(Value).SetType(ValueType.JSON).SetSource(value.Source).SetDate(value.Date).
+			SetValueString(string(jsonArray))
+		attribute := *new(Attribute).SetName(attributeName).SetValue(valueArray)
+		e.Attributes[attributeName] = attribute
+	}
+	e.UpdatedAt = time.Now()
+	return e
 }
 
 /*
