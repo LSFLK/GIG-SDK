@@ -156,15 +156,18 @@ func (e *Entity) AppendToAttributeValue(attributeName string, value Value) *Enti
 			log.Println("unsupported value string to unmarshal:", value)
 			return e
 		}
-		valueObj = append(valueObj, value.ValueString)
-		valueString, err := json.Marshal(valueObj)
-		if err != nil {
-			log.Println("error while converting back to json array:", value)
-			return e
+
+		if !libraries.StringInSlice(valueObj, value.ValueString) {
+			valueObj = append(valueObj, value.ValueString)
+			valueString, err := json.Marshal(valueObj)
+			if err != nil {
+				log.Println("error while converting back to json array:", value)
+				return e
+			}
+			valuesSlice[valueIndex].ValueString = string(valueString)
+			attribute.Values = valuesSlice
+			e.Attributes[attributeName] = attribute
 		}
-		valuesSlice[valueIndex].ValueString = string(valueString)
-		attribute.Values = valuesSlice
-		e.Attributes[attributeName] = attribute
 		return e
 
 	} else { //else create new attribute and append value

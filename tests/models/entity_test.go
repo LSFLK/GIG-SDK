@@ -311,4 +311,10 @@ func TestThatAppendToAttributeValueWorks(t *testing.T) {
 	if err != nil || attribute.GetValue().GetValueString() != `["value1","value2"]` {
 		t.Errorf("AppendToAttributeValue - appending second value failed")
 	}
+
+	testEntity.AppendToAttributeValue("test_attr", secondValue)
+	attribute, err = testEntity.GetAttribute("test_attr")
+	if err != nil || attribute.GetValue().GetValueString() != `["value1","value2"]` {
+		t.Errorf("AppendToAttributeValue - appending second value failed")
+	}
 }
