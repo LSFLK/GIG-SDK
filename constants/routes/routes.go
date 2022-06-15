@@ -13,6 +13,7 @@ const (
 	AddBatch          = "add-batch"
 	Delete            = "delete"
 	Update            = "update"
+	Append            = "append"
 	Terminate         = "terminate"
 	Upload            = "upload"
 	NormalizeLocation = "normalize/location"
