@@ -106,6 +106,22 @@ func (c *GigClient) GetEntity(title string) (models.Entity, error) {
 }
 
 /*
+GetEntityByAttribute - get entity by attribute
+*/
+func (c *GigClient) GetEntityByAttribute(attributeName string, valueString string) (models.Entity, error) {
+	var entity models.Entity
+	resp, err := c.GetRequest(c.ApiUrl + routes.SearchByAttribute + attributeName + "/" + valueString)
+	if err != nil {
+		return entity, err
+	}
+	err = json.Unmarshal([]byte(resp), &entity)
+	if err != nil {
+		return entity, err
+	}
+	return entity, err
+}
+
+/*
 CreateEntityFromText - create entity from text content
 */
 func (c *GigClient) CreateEntityFromText(textContent string, title string, categories []string, entityTitles []models.NERResult) error {
@@ -189,6 +205,22 @@ CreateEntity - Create a new entity and save to GIG
 func (c *GigClient) CreateEntity(entity models.Entity) (models.Entity, error) {
 
 	resp, err := c.PostRequest(c.ApiUrl+routes.Add, entity)
+	if err != nil {
+		return entity, err
+	}
+	err = json.Unmarshal([]byte(resp), &entity)
+	if err != nil {
+		return entity, err
+	}
+	return entity, err
+}
+
+/*
+AppendToEntity - Append to entity value
+*/
+func (c *GigClient) AppendToEntity(appendEntity models.UpdateEntity) (models.Entity, error) {
+	var entity models.Entity
+	resp, err := c.PostRequest(c.ApiUrl+routes.Append, appendEntity)
 	if err != nil {
 		return entity, err
 	}

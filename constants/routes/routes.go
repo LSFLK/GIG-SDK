@@ -7,6 +7,7 @@ const (
 	Status            = "status/"
 	Search            = "search?query = "
 	Entity            = "get/"
+	SearchByAttribute = "attribute/"
 	Links             = "links/"
 	Relations         = "relations/"
 	Add               = "add"
