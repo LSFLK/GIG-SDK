@@ -14,10 +14,11 @@ var (
 	valueString          = "~test /tit?le % "
 	valueString2         = "~test /tit?le % 2"
 	valueString3         = "~test /tit?le % 3"
+	date0                = time.Time{}
 	date, _              = time.Parse(ReferenceDate, "2010-5-20")
 	date2, _             = time.Parse(ReferenceDate, "2010-5-22")
 	date25, _            = time.Parse(ReferenceDate, "2010-11-22")
-	date3, _             = time.Parse(ReferenceDate, "2011-5-22")
+	date3, _             = time.Parse(ReferenceDate, "2011-3-15")
 	valueType            = ValueType.String
 	formattedValueString = "2test -title"
 	testAttributeKey     = "test_attribute"
@@ -25,6 +26,7 @@ var (
 	testValueObj0 = *new(models.Value).
 			SetSource(source0).
 			SetValueString(valueString).
+			SetDate(date0).
 			SetType(valueType)
 
 	testValueObj = *new(models.Value).
