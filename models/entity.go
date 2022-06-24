@@ -214,7 +214,7 @@ func (e *Entity) SetAttribute(attributeName string, value Value) *Entity {
 			attribute.SetValue(value)
 			e.Attributes[attributeName] = attribute // append new value to the attribute
 
-			// if value exist but the value source date is missing
+			// if value exist but the value source date is missing - set source date
 		} else if !valueDate.IsZero() && valuesSlice[valueIndex].GetDate().IsZero() {
 			valuesSlice[valueIndex].SetDate(valueDate).SetSource(value.GetSource())
 			attribute.Values = valuesSlice
